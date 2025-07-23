@@ -1,18 +1,11 @@
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 
 
-const Home = async() => {
-  const payload = await getPayload({
-      config: configPromise,
-    })
-  const categories = await payload.find({
-    collection: 'categories',
-  })
+
+const Home = async () => {
+  
   return (
     <div>
-      {JSON.stringify(categories, null, 2)}
-      
+      home
     </div>
   )
 }
