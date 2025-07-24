@@ -31,21 +31,31 @@ export const CategoryDropdown = ({
             ref={dropdownRef}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className="relative "
+            className="relative"
         >
-            <Button
-                variant="outline"
-                className={cn(
-                    "h-11 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
-                    "bg-transparent border border-transparent text-foreground",
-                    "hover:bg-muted hover:border-primary",
-                    {
-                        "bg-background text-foreground": isActive && isNavigationHovered,
-                    }
+            <div className="relative">
+                <Button
+                    variant="outline"
+                    className={cn(
+                        "h-11 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
+                        "bg-transparent border border-transparent text-foreground",
+                        "hover:bg-muted hover:border-primary",
+                        {
+                            "bg-background text-foreground": isActive && isNavigationHovered,
+                        }
+                    )}
+                >
+                    {category.name}
+                </Button>
+                {category.subcategories && category.subcategories.length > 0   && (
+                    
+                    <div className={cn(
+                        "opacity-0 absolute bottom-0 w-0 h-0 border-l-[10px] border-r-[10px] border-b-[10px] border-l-transparent border-r-transparent border-b-foreground left-1/2 transform -translate-x-1/2",
+                        isOpen && "opacity-100" ,
+                    )}
+                    />
                 )}
-            >
-                {category.name}
-            </Button>
+            </div>
         </div>
     );
 };
