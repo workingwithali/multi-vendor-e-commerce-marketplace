@@ -30,7 +30,7 @@ const Layout = async({ children }: LayoutProps) => {
       ...(subdoc as Category),
     })),
   }));
-  console.log('Categories:', formattedData);
+  // console.log('Categories:', formattedData);
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />

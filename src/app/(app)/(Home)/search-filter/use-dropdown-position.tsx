@@ -1,28 +1,34 @@
 import { RefObject } from "react";
 
 export const useDropdownPosition = (
-    Ref: RefObject<HTMLDivElement | null> | RefObject<HTMLButtonElement>,
+    ref: RefObject<HTMLElement | null> |RefObject<HTMLDivElement>
 ) => {
-    const getdropdownPosition = () => {
-        if (!Ref.current) {
+    const getDropdownPosition = () => {
+        if (!ref.current) {
             return { top: 0, left: 0 };
         }
-        const rect = Ref.current.getBoundingClientRect();
-        const dropdownWith = 240;
+
+        const rect = ref.current.getBoundingClientRect();
+        const dropdownWidth = 240
 
         let left = rect.left + window.scrollX;
-        let top = rect.bottom + window.scrollY;
+        const top = rect.bottom + window.scrollY;
 
-        if (rect.left + dropdownWith > window.innerWidth) {
-            left = rect.left + window.scrollX - dropdownWith; // 16px for padding
+        // Adjust if overflowing right edge
+        if (rect.left + dropdownWidth > window.innerWidth) {
+            left = rect.left + window.scrollX - dropdownWidth;
             if (left < 0) {
-                left = window.innerWidth - dropdownWith - 16; 
+                left = window.innerWidth - dropdownWidth - 16;
             }
         }
-        if(left < 0) {
-            left = 0; // Ensure left is not negative
+
+        // Ensure it doesn't go off-screen on the left
+        if (left < 0) {
+            left = 0;
         }
+
         return { top, left };
     };
-    return { getdropdownPosition };
+
+    return { getDropdownPosition };
 };

@@ -7,16 +7,18 @@ interface Props {
 
 export const Categories = ({ data }: Props) => {
     return (
-        <div>
-            {data.map((category: Category) => (
-                <div key={category.id} >
-                    <CategoryDropdown
-                    category={category}
-                    isActive={false} // Replace with actual logic to determine if active
-                    isNavigationHovered={false} // Replace with actual logic if needed
-                     />
-                </div>
-            ))}
+        <div className="relative w-full">
+            <div className="flex flex-nowrap items-center">
+                {data.map((category: Category) => (
+                    <div key={category.id} className="mr-2" >
+                        <CategoryDropdown
+                            category={category}
+                            isActive={false} 
+                            isNavigationHovered={false}
+                        />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
