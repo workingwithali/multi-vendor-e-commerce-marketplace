@@ -9,7 +9,7 @@
     "lint": "next lint",
     "generate:types": "payload generate:types",
     "db:fresh": "payload migrate:fresh",
-    "seed": "ts-node -P tsconfig.seed.json src/seed.ts"
+    "seed": "ts-node --project tsconfig.seed.json src/seed.ts"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.48.0",
