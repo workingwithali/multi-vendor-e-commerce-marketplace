@@ -1,6 +1,5 @@
 import { getPayload } from "payload";
-import config from "../src/payload.config"; // Adjust based on your file structure
-
+import config from "@payload-config";
 const categories = [
     {
         name: "All",
