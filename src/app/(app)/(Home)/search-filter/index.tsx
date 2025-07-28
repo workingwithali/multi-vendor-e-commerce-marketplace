@@ -11,10 +11,10 @@ export const SearchFilter = ( { data }: Props) => {
 
     return (
         <div className="px-4 lg:px-12 py-8 flex flex-col gap-4 border-b w-full">
-            <SearchInput disabled={false} />
+            <SearchInput data={data} disabled={false} />
+            <div className="hidden lg:block">
             <Categories data={data} />
-            
-            
+            </div>            
         </div>
     )
 }

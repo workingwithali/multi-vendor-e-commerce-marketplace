@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import { useDropdownPosition } from "./use-dropdown-position";
 import { SubcategoryMenu } from "./subcategory-menu";
 import { CustomerCategory } from "../types";
+import Link from "next/link";
 
 interface Props {
     category: CustomerCategory;
@@ -27,6 +28,11 @@ export const CategoryDropdown = ({
     };
     const onMouseLeave = () => setIsOpen(false);
     const dropdownPosition = getDropdownPosition();
+    const toggleDropdown = () => {
+        if (category.subcategories?.docs?.length) {
+            setIsOpen(!isOpen);
+        }
+    };
 
     return (
 
@@ -35,21 +41,26 @@ export const CategoryDropdown = ({
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             className="relative"
+        // onClick={toggleDropdown}
         >
             <div className="relative">
                 <Button
                     className={cn(
                         "h-9 px-3 py-1.5 rounded-full text-sm font-medium",
                         "bg-transparent border border-transparent text-foreground",
-                        "hover:border-primary hover:bg-background hover:text-foreground",
+                        "hover:border-foreground hover:bg-background hover:text-foreground",
                         // Apply these if active and hovered
-                        isActive && isNavigationHovered && "border-primary bg-background shadow",
-                        isOpen && "border-primary bg-background shadow-primary"
+                        isActive && isNavigationHovered && "border-foreground bg-background shadow",
+                        isOpen && "border-foreground bg-background shadow-foreground",
                     )}
 
 
                 >
-                    {category.name}
+                    <Link
+                        href={`/${category.slug == "all" ? "" : category.slug}`}
+                    >
+                        {category.name}
+                    </Link>
                 </Button>
 
                 {category.subcategories && category.subcategories.length > 0 && (
@@ -59,7 +70,7 @@ export const CategoryDropdown = ({
                         "left-1/2 transform -translate-x-1/2",
                         isOpen && "opacity-100"
                     )} />
-                    
+
                 )}
             </div>
             <SubcategoryMenu

@@ -4,6 +4,8 @@ import { CustomerCategory } from "../types";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ListFilterIcon } from "lucide-react";
+import { CategoriesSidebar } from "./categorysidebar";
 interface Props {
     data: CustomerCategory[];
 }
@@ -30,7 +32,7 @@ export const Categories = ({ data }: Props) => {
             const viewAllWidth = viewAllRef.current.offsetWidth;
             const availableWidth = containerWidth - viewAllWidth;
 
-            const items = Array.from(containerRef.current.children);
+            const items = Array.from(measureRef.current.children);
             let totalWidth = 0;
             let visible = 0;
             for (const item of items) {
@@ -52,6 +54,7 @@ export const Categories = ({ data }: Props) => {
     return (
         // hidden
         <div className="relative w-full">
+            <CategoriesSidebar open={isSidebarOpen} setOpen={setIsSidebarOpen} data={data} />
             <div
                 ref={measureRef}
                 className="absolute opacity-0 pointer-events-none flex"
@@ -72,8 +75,8 @@ export const Categories = ({ data }: Props) => {
             <div
                 ref={containerRef}
                 className="flex flex-nowrap items-center"
-                onMouseEnter={() => setIsAnyHovered(true)}
-                onMouseLeave={() => setIsAnyHovered(false)}
+                onMouseEnter={() => setIsAnyHovered(false)}
+                onMouseLeave={() => setIsAnyHovered(true)}
             >
                 {data.slice(0, visibleCount).map((category) => (
                     <div key={category.id} className="mr-2" >
@@ -84,20 +87,24 @@ export const Categories = ({ data }: Props) => {
                         />
                     </div>
                 ))}
-            </div>
-            <div
-                ref={viewAllRef}
-                className="shrink-0"
-            >
-                <Button
-                    className={cn(
-                        "h-9 px-3 py-1.5 rounded-full text-sm font-medium",
-                        "bg-transparent border border-transparent text-foreground",
-                        "hover:border-primary hover:bg-background hover:text-foreground",
-                        // Apply these if active and hovered
-                        isActiveCategoryHidden && isAnyHovered && "border-primary bg-background shadow",
-                    )}
-                >View All</Button>
+                <div
+                    ref={viewAllRef}
+                    className="shrink-0"
+                >
+                    <Button
+                        className={cn(
+                            "h-9 px-3 py-1.5 rounded-full text-sm font-medium",
+                            "bg-transparent border border-transparent text-foreground",
+                            "hover:border-primary hover:bg-background hover:text-foreground",
+                            // Apply these if active and hovered
+                            isActiveCategoryHidden && isAnyHovered && "border-primary bg-background shadow",
+                        )}
+                        onClick={() => setIsSidebarOpen(true)}
+                    >
+                        View All
+                        <ListFilterIcon className="ml-2" />
+                    </Button>
+                </div>
             </div>
         </div>
     );

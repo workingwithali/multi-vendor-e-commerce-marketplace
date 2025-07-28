@@ -1,9 +1,10 @@
 import { Category } from "@/payload-types";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { CustomerCategory } from "../types";
 
 interface Props {
-    category: Category; 
+    category: CustomerCategory; 
     isOpen: boolean;
     Position: { top: number; left: number};
 }
@@ -38,7 +39,7 @@ export const SubcategoryMenu = ({
                     {category.subcategories?.map((subcategory: Category) => (
                         <Link
                             key={subcategory.slug}
-                            href={`/search/${subcategory.slug}`}
+                            href={`/${category.slug}/${subcategory.slug}`}
                             className={cn(
                                 "w-full px-4 py-3 text-left flex items-center justify-between font-medium underline",
                                 "hover:bg-foreground hover:text-background transition-colors duration-200"
