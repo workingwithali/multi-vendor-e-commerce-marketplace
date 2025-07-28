@@ -1,9 +1,10 @@
 import { SearchInput } from "@/app/(app)/(Home)/search-filter/search-input";
 import { Categories } from "@/app/(app)/(Home)/search-filter/categories";
+import { CustomerCategory } from "../types";
 
 
 interface Props {
-    data: any;
+    data: CustomerCategory[];
 }
 export const SearchFilter = ( { data }: Props) => {
 

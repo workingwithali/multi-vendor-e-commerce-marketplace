@@ -1,13 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils"; // Adjust path as needed
-import { Category } from "@/payload-types";
 import { useState, useRef } from "react";
 import { useDropdownPosition } from "./use-dropdown-position";
 import { SubcategoryMenu } from "./subcategory-menu";
+import { CustomerCategory } from "../types";
 
 interface Props {
-    category: Category;
+    category: CustomerCategory;
     isActive: boolean;
     isNavigationHovered: boolean;
 }
@@ -39,15 +39,14 @@ export const CategoryDropdown = ({
             <div className="relative">
                 <Button
                     className={cn(
-                        // Base layout and animation
-                        "h-9 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200",
-                        // Default state: transparent background & no border
-                        "bg-transparent border border-foreground text-foreground",
-                        // Hover: show primary border + subtle background + shadow
-                        "hover:border-primary hover:bg-muted",
-                        // Conditional active/hovered state
-                        isActive && isNavigationHovered && ("border-primary bg-muted shadow"),
+                        "h-9 px-3 py-1.5 rounded-full text-sm font-medium",
+                        "bg-transparent border border-transparent text-foreground",
+                        "hover:border-primary hover:bg-background hover:text-foreground",
+                        // Apply these if active and hovered
+                        isActive && isNavigationHovered && "border-primary bg-background shadow",
+                        isOpen && "border-primary bg-background shadow-primary"
                     )}
+
 
                 >
                     {category.name}
