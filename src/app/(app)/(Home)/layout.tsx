@@ -24,6 +24,7 @@ const Layout = async({ children }: LayoutProps) => {
         exists: false,
       },
     },
+    sort: 'name',
   });
   const formattedData : CustomerCategory[] = data.docs.map((doc) => ({
     ...doc,
