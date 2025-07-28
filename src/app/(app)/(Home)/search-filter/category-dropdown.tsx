@@ -45,11 +45,10 @@ export const CategoryDropdown = ({
                         "bg-transparent border border-foreground text-foreground",
                         // Hover: show primary border + subtle background + shadow
                         "hover:border-primary hover:bg-muted",
-                        // Active or hovered with active state: show full border and background
-                        {
-                            "border-primary bg-background text-foreground": isActive && isNavigationHovered,
-                        }
+                        // Conditional active/hovered state
+                        isActive && isNavigationHovered && ("border-primary bg-muted shadow"),
                     )}
+
                 >
                     {category.name}
                 </Button>
