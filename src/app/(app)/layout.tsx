@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import RenderMounted from "@/components/RenderMounted";
+import { TRPCReactProvider } from "@/trpc/client";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -33,7 +34,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <TRPCReactProvider>
+              {children}
+            </TRPCReactProvider>
           </ThemeProvider>
         </RenderMounted>
       </body>
