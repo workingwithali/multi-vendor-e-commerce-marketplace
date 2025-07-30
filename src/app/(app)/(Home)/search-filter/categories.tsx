@@ -1,13 +1,13 @@
 "use client";
 import { CategoryDropdown } from "@/app/(app)/(Home)/search-filter/category-dropdown";
-import { CustomerCategory } from "../types";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ListFilterIcon } from "lucide-react";
 import { CategoriesSidebar } from "./categorysidebar";
+import { categoriesGetManyOutput } from "@/modules/categories/server/types";
 interface Props {
-    data: CustomerCategory[];
+    data: categoriesGetManyOutput;
 }
 
 export const Categories = ({ data }: Props) => {

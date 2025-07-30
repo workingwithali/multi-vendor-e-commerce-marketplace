@@ -4,11 +4,11 @@ import { cn } from "@/lib/utils"; // Adjust path as needed
 import { useState, useRef } from "react";
 import { useDropdownPosition } from "./use-dropdown-position";
 import { SubcategoryMenu } from "./subcategory-menu";
-import { CustomerCategory } from "../types";
 import Link from "next/link";
+import { categoriesGetManyOutput } from "@/modules/categories/server/types";
 
 interface Props {
-    category: CustomerCategory;
+    category: categoriesGetManyOutput[1];
     isActive: boolean;
     isNavigationHovered: boolean;
 }

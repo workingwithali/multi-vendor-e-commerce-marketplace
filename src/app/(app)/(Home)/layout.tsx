@@ -14,7 +14,7 @@ interface LayoutProps {
 const Layout = async ({ children }: LayoutProps) => {
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(
-    trpc.category.getMany.queryOptions(),
+    trpc.categories.getMany.queryOptions(),
   );
 
 

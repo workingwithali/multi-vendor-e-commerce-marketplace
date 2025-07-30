@@ -1,10 +1,10 @@
 import { Category } from "@/payload-types";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { CustomerCategory } from "../types";
+import { categoriesGetManyOutput } from "@/modules/categories/server/types";
 
 interface Props {
-    category: CustomerCategory; 
+    category: categoriesGetManyOutput[1]; 
     isOpen: boolean;
     Position: { top: number; left: number};
 }

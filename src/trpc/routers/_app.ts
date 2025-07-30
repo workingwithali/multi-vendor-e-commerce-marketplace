@@ -2,7 +2,7 @@
 import { createTRPCRouter } from '../init';
 import { categoriesRouter } from '@/modules/categories/server/procedures';
 export const appRouter = createTRPCRouter({
-   category: categoriesRouter,
+   categories: categoriesRouter,
     
 });
 // export type definition of API

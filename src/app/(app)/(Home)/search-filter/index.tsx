@@ -9,7 +9,7 @@ import {  useSuspenseQuery } from "@tanstack/react-query";
 
 export const SearchFilter = () => {
     const trpc = useTRPC();
-    const { data } = useSuspenseQuery(trpc.category.getMany.queryOptions());
+    const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
 
     return (
         <div className="px-4 lg:px-12 py-8 flex flex-col gap-4 border-b w-full"
