@@ -54,7 +54,7 @@ export const Categories = ({ data }: Props) => {
     return (
         // hidden
         <div className="relative w-full">
-            <CategoriesSidebar open={isSidebarOpen} setOpen={setIsSidebarOpen} data={data} />
+            <CategoriesSidebar open={isSidebarOpen} setOpen={setIsSidebarOpen} />
             <div
                 ref={measureRef}
                 className="absolute opacity-0 pointer-events-none flex"

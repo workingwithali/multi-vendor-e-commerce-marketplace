@@ -6,13 +6,18 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
     open: boolean;
     setOpen: (open: boolean) => void;
-    data: CustomerCategory[];
 }
-export const CategoriesSidebar = ({ open, setOpen, data }: Props) => {
+export const CategoriesSidebar = ({ open, setOpen }: Props) => {
+    const trpc = useTRPC();
+    const { data } = useQuery(trpc.category.getMany.queryOptions());
+
+
     const  router = useRouter();
     const [parentCategory, setParentCategory] = useState<CustomerCategory[] | null>(null);
     const [selectCategory, setSelectCategory] = useState<CustomerCategory | null>(null);

@@ -28,11 +28,11 @@ export const CategoryDropdown = ({
     };
     const onMouseLeave = () => setIsOpen(false);
     const dropdownPosition = getDropdownPosition();
-    const toggleDropdown = () => {
-        if (category.subcategories?.docs?.length) {
-            setIsOpen(!isOpen);
-        }
-    };
+    // const toggleDropdown = () => {
+    //     if (category.subcategories?.docs?.length) {
+    //         setIsOpen(!isOpen);
+    //     }
+    // };
 
     return (
 
