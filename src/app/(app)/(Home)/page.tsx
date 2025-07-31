@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const Home =  () => {
   const trpc = useTRPC();
-  const categories =  useQuery(trpc.category.getMany.queryOptions())
+  const categories =  useQuery(trpc.categories.getMany.queryOptions())
 
   return (
     <div>
