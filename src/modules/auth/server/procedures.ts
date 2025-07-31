@@ -1,8 +1,10 @@
 
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
-import  { headers as getHeaders } from 'next/headers'
+import { TRPCError } from "@trpc/server";
+import  { headers as getHeaders , cookies as getCookies } from 'next/headers'
 
 import { z } from "zod";
+import { AUth_COOKIE } from "../constants";
 
 
 export const authRouter = createTRPCRouter({
@@ -11,6 +13,10 @@ export const authRouter = createTRPCRouter({
         const session = await ctx.db.auth({headers})
       
         return session
+    }),
+    logout :baseProcedure.mutation(async () => {
+        const cookies = await getCookies()
+        cookies.delete(AUth_COOKIE)
     }),
     register :baseProcedure
         .input(
@@ -34,6 +40,35 @@ export const authRouter = createTRPCRouter({
                     password: input.password,
                     username: input.username,
                 }
+            })
+        }),
+    login :baseProcedure
+        .input(
+            z.object({
+                email: z.string().email(),
+                password: z.string().min(8),
+            })
+        )
+        .mutation(async ({ctx,input}) => {
+            const data = await ctx.db.login({
+                collection: 'users',
+                data: {
+                    email: input.email,
+                    password: input.password
+                }   
+            })
+            if(!data.token){
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Invalid credentials"
+                })
+            }
+            const cookies = await getCookies()
+            cookies.set({
+                name: AUth_COOKIE,
+                value: data.token,
+                httpOnly: true,
+                path: "/"
             })
         }),
         
