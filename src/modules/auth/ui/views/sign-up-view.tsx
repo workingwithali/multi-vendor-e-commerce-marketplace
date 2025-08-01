@@ -4,9 +4,28 @@ import { Input } from '@/components/ui/input';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { registerSchema } from '../../registerSchema';
+import { 
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+ } from '@/components/ui/form';
 
 export const SignUpView = () => {
+    const form = useForm<z.infer<typeof registerSchema>>({
+        resolver: zodResolver(registerSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+            username: '',
+        },
+    })
+    const onSubmit = (value: z.infer<typeof registerSchema>) => {
+        console.log(value)
+    }
 
 
     return (
