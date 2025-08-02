@@ -1,1 +1,1 @@
-export const AUth_COOKIE = "ali-payload-token";
+export const AUth_COOKIE = "payload-token";

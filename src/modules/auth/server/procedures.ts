@@ -1,29 +1,42 @@
 
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
-import  { headers as getHeaders , cookies as getCookies } from 'next/headers'
+import { cookies as getCookies, headers as getHeaders } from 'next/headers';
 
-import { z } from "zod";
 import { AUth_COOKIE } from "../constants";
-import { registerSchema } from "../registerSchema";
+import { loginSchema, registerSchema } from "../schema";
 
 
 export const authRouter = createTRPCRouter({
-    session :baseProcedure.query(async ({ctx}) => {
+    session: baseProcedure.query(async ({ ctx }) => {
         const headers = await getHeaders();
-        const session = await ctx.db.auth({headers})
-      
+        const session = await ctx.db.auth({ headers })
         return session
     }),
-    logout :baseProcedure.mutation(async () => {
+    logout: baseProcedure.mutation(async () => {
         const cookies = await getCookies()
         cookies.delete(AUth_COOKIE)
     }),
-    register :baseProcedure
+    register: baseProcedure
         .input(
-           registerSchema
+            registerSchema
         )
-        .mutation(async ({ctx,input}) => {
+        .mutation(async ({ ctx, input }) => {
+            const existingData = await ctx.db.find({
+                collection: 'users',
+                where: {
+                    username: {
+                        equals: input.username,
+                    }
+                },
+            })
+            const existingUser = existingData.docs[0];
+            if (existingUser) {
+                throw new TRPCError({
+                    code: "CONFLICT",
+                    message: "User already exists"
+                })
+            }
             await ctx.db.create({
                 collection: 'users',
                 data: {
@@ -33,22 +46,19 @@ export const authRouter = createTRPCRouter({
                 }
             })
         }),
-    login :baseProcedure
+    login: baseProcedure
         .input(
-            z.object({
-                email: z.string().email(),
-                password: z.string().min(8),
-            })
+            loginSchema
         )
-        .mutation(async ({ctx,input}) => {
+        .mutation(async ({ ctx, input }) => {
             const data = await ctx.db.login({
                 collection: 'users',
                 data: {
                     email: input.email,
                     password: input.password
-                }   
+                }
             })
-            if(!data.token){
+            if (!data.token) {
                 throw new TRPCError({
                     code: "UNAUTHORIZED",
                     message: "Invalid credentials"
@@ -62,6 +72,6 @@ export const authRouter = createTRPCRouter({
                 path: "/"
             })
         }),
-        
-        
+
+
 })

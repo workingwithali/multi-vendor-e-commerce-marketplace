@@ -1,10 +1,4 @@
 "use client";
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { registerSchema } from '@/modules/auth/registerSchema';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -15,13 +9,29 @@ import {
     FormLabel,
     FormMessage
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { registerSchema } from '@/modules/auth/schema';
 import { useTRPC } from '@/trpc/client';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 export const SignUpView = () => {
+    const router = useRouter();
     const trpc = useTRPC();
-    const register = useMutation(trpc.auth.register.mutationOptions());
+    const register = useMutation(trpc.auth.register.mutationOptions({
+        onError: (error) => {
+            toast.error(error.message);
+        },
+        onSuccess: () => {
+            toast.success('Account created successfully');
+            router.push('/');
+        }
+    }));
     const form = useForm<z.infer<typeof registerSchema>>({
         mode: 'all',
         resolver: zodResolver(registerSchema),
@@ -45,7 +55,7 @@ export const SignUpView = () => {
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className='flex flex-col gap-8 p-8 lg:px-16'
+                        className='flex flex-col gap-8 p-4 lg:p-16'
                     >
                         <div className='flex items-center justify-between mb-2'>
                             <Link href="/">
@@ -59,7 +69,7 @@ export const SignUpView = () => {
                                 size='sm'
                                 className='text-base border-none underline hover:no-underline text-foreground'
                             >
-                                <Link prefetch href="/sign-in">Login</Link>
+                                <Link prefetch href="/sign-in">LogIn</Link>
                             </Button>
                         </div>
                         <h1 className='text-3xl font-medium'>
@@ -74,7 +84,7 @@ export const SignUpView = () => {
                                         <Input {...field} />
                                     </FormControl>
                                     <FormDescription
-                                    className={cn("hidden", showPreview && "block")}
+                                        className={cn("hidden", showPreview && "block")}
                                     >
                                         you store will be available at&nbsp;
                                         <strong>{username}</strong>
@@ -107,12 +117,12 @@ export const SignUpView = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button 
-                        disabled={register.isPending}
-                        type="submit"
-                        size="lg"
-                        variant="default"
-                        className='bg-foreground text-background'
+                        <Button
+                            disabled={register.isPending}
+                            type="submit"
+                            size="lg"
+                            variant="default"
+                            className='bg-foreground text-background'
                         >
                             Create Account
                         </Button>
