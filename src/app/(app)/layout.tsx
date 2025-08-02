@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import RenderMounted from "@/components/RenderMounted";
 import { TRPCReactProvider } from "@/trpc/client";
+import { Toaster } from "@/components/ui/sonner";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
             <TRPCReactProvider>
               {children}
             </TRPCReactProvider>
+            <Toaster />
           </ThemeProvider>
         </RenderMounted>
       </body>

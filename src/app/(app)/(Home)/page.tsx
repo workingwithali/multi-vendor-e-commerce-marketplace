@@ -10,7 +10,7 @@ const Home =  () => {
 
   return (
     <div>
-      <p>is loading:{categories.isLoading}</p>
+      <p className="bg-amber-300">is loading:{categories.isLoading}</p>
       {JSON.stringify(categories.data, null, 2)}
     </div>
   )
