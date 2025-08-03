@@ -1,1 +1,0 @@
-export const AUth_COOKIE = "payload-token";
