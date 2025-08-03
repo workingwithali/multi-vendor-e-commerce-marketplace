@@ -1,4 +1,4 @@
-import { SignUpView } from '@/components/auth/sign-up-view'
+import { SignUpView } from '@/modules/auth/view/sign-up-view'
 import { caller } from '@/trpc/server';
 import { redirect } from 'next/navigation';
 import React from 'react'

@@ -1,8 +1,8 @@
 "use client";
-import { SearchInput } from "@/app/(app)/(Home)/search-filter/search-input";
-import { Categories } from "@/app/(app)/(Home)/search-filter/categories";
+import { Categories } from "@/modules/home/ui/components/search-filter/categories";
+import { SearchInput } from "@/modules/home/ui/components/search-filter/search-input";
 import { useTRPC } from "@/trpc/client";
-import {  useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 
 
@@ -13,12 +13,12 @@ export const SearchFilter = () => {
 
     return (
         <div className="px-4 lg:px-12 py-8 flex flex-col gap-4 border-b w-full"
-        style={{ backgroundColor: "Background"}}
+            style={{ backgroundColor: "Background" }}
         >
-            <SearchInput/>
+            <SearchInput />
             <div className="hidden lg:block">
-            <Categories data={data} />
-            </div>            
+                <Categories data={data} />
+            </div>
         </div>
     )
 }
@@ -26,12 +26,12 @@ export const SearchFilter = () => {
 export const SecrchFilterLoading = () => {
     return (
         <div className="px-4 lg:px-12 py-8 flex flex-col gap-4 border-b w-full"
-        style={{ backgroundColor: "Background"}}
+            style={{ backgroundColor: "Background" }}
         >
-            <SearchInput disabled/>
+            <SearchInput disabled />
             <div className="hidden lg:block">
-            <div className="h-9" />
-            </div>            
+                <div className="h-9" />
+            </div>
         </div>
     )
 }

@@ -1,12 +1,12 @@
 "use client";
-import { Input } from "@/components/ui/input";
-import { BookmarkCheckIcon, ListFilterIcon, SearchIcon } from "lucide-react";
-import { CategoriesSidebar } from "@/app/(app)/(Home)/search-filter/categorysidebar";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { CategoriesSidebar } from "@/modules/home/ui/components/search-filter/categorysidebar";
 import { useTRPC } from "@/trpc/client";
 import { useQuery } from "@tanstack/react-query";
+import { BookmarkCheckIcon, ListFilterIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 interface Props {
     disabled?: boolean;
 }
@@ -35,10 +35,10 @@ export const SearchInput = ({
                     asChild
                     variant="default"
                     className="py-6 shrink-0 flex  border rounded-md"
-                    >
+                >
                     <Link href="/libary">
-                    <BookmarkCheckIcon/>
-                    Libary
+                        <BookmarkCheckIcon />
+                        Libary
                     </Link>
                 </Button>
             )}

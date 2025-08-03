@@ -1,11 +1,11 @@
 "use client";
-import { CategoryDropdown } from "@/app/(app)/(Home)/search-filter/category-dropdown";
-import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ListFilterIcon } from "lucide-react";
-import { CategoriesSidebar } from "./categorysidebar";
 import { categoriesGetManyOutput } from "@/modules/categories/server/types";
+import { CategoryDropdown } from "@/modules/home/ui/components/search-filter/category-dropdown";
+import { ListFilterIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CategoriesSidebar } from "./categorysidebar";
 interface Props {
     data: categoriesGetManyOutput;
 }

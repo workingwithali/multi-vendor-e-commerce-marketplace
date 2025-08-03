@@ -1,7 +1,7 @@
-import { Navbar } from "@/app/(app)/(Home)/navbar"
-import { Footer } from "@/app/(app)/(Home)/footer"
-import { SearchFilter, SecrchFilterLoading } from "@/app/(app)/(Home)/search-filter"
-import { getQueryClient, trpc } from "@/trpc/server"
+import { Footer } from "@/modules/home/ui/components/footer";
+import { Navbar } from "@/modules/home/ui/components/navbar";
+import { SearchFilter, SecrchFilterLoading } from "@/modules/home/ui/components/search-filter";
+import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { Suspense } from "react";
 
@@ -22,7 +22,7 @@ const Layout = async ({ children }: LayoutProps) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <HydrationBoundary state={dehydrate(queryClient)}> 
+      <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<SecrchFilterLoading />}>
           <SearchFilter />
         </Suspense>

@@ -1,5 +1,5 @@
 
-import { SignInView } from '@/components/auth/sign-in-view'
+import { SignInView } from '@/modules/auth/view/sign-in-view'
 import { caller } from '@/trpc/server'
 import { redirect } from 'next/navigation';
 

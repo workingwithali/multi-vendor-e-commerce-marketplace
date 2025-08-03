@@ -1,15 +1,15 @@
 "use client"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
-import { Poppins } from "next/font/google"
+import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
-import { ModeToggle } from "@/components/mode-toggle";
-import { usePathname } from "next/navigation"
-import { NavbarSidebar } from "./navbar-sidebar"
-import { useState } from "react"
-import { MenuIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
 import { useTRPC } from "@/trpc/client"
 import { useQuery } from "@tanstack/react-query"
+import { MenuIcon } from "lucide-react"
+import { Poppins } from "next/font/google"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useState } from "react"
+import { NavbarSidebar } from "./navbar-sidebar"
 
 
 interface NavbarItemProps {
@@ -82,7 +82,7 @@ export const Navbar = () => {
                             asChild
                             className="border-l border-foreground border-t-0 border-b-0 border-r-0 px-12 h-full rounded-none bg-foreground text-background hover:bg-primary hover:text-accent-foreground  transition-colors"
                         >
-                            <Link  href="/admin">Dashboard</Link>
+                            <Link href="/admin">Dashboard</Link>
                         </Button>
                     </div>
                 ) : (
