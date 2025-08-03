@@ -98,9 +98,9 @@ export const Categories = ({ data }: Props) => {
                         className={cn(
                             "h-9 px-3 py-1.5 rounded-full text-sm font-medium",
                             "bg-transparent border border-transparent text-foreground",
-                            "hover:border-primary hover:bg-background hover:text-foreground",
+                            "hover:border-foreground hover:shadow-foreground hover:bg-background hover:text-foreground",
                             // Apply these if active and hovered
-                            isActiveCategoryHidden && isAnyHovered && "border-primary bg-background shadow",
+                            isActiveCategoryHidden && isAnyHovered && "border-foreground bg-background shadow-foreground",
                         )}
                         onClick={() => setIsSidebarOpen(true)}
                     >

@@ -70,7 +70,7 @@ export const SignUpView = () => {
                                 size='sm'
                                 className='text-base border-none underline hover:no-underline text-foreground'
                             >
-                                <Link prefetch href="/sign-in">LogIn</Link>
+                                <Link prefetch href="/sign-in">log in</Link>
                             </Button>
                         </div>
                         <h1 className='text-3xl font-medium'>
@@ -98,7 +98,7 @@ export const SignUpView = () => {
                             name='email'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className='text-base'>email</FormLabel>
+                                    <FormLabel className='text-base'>Email</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>

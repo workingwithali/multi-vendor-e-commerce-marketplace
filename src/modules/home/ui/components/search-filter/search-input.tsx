@@ -21,10 +21,10 @@ export const SearchInput = ({
             <CategoriesSidebar open={open} setOpen={setOpen} />
             <div className="relative w-full">
                 <SearchIcon className="absolute top-1/2 left-3 -translate-y-1/2 size-4 text-muted-foreground" />
-                <Input className="pl-10 py-6" placeholder="Search Product" disabled={disabled} />
+                <Input className="pl-10 py-6 bg-background" placeholder="Search Product" disabled={disabled} />
             </div>
             <Button
-                className="size-12 shrink-0 flex lg:hidden border rounded-md"
+                className="py-6 size-12 shrink-0 flex bg-background border-foreground lg:hidden border rounded-md"
                 variant="default"
                 onClick={() => setOpen(true)}
             >
@@ -34,7 +34,7 @@ export const SearchInput = ({
                 <Button
                     asChild
                     variant="default"
-                    className="py-6 shrink-0 flex  border rounded-md"
+                    className="py-6 border-foreground shrink-0 flex  border rounded-md"
                 >
                     <Link href="/libary">
                         <BookmarkCheckIcon />
