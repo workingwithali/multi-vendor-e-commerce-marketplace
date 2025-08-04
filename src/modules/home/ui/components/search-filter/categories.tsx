@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { categoriesGetManyOutput } from "@/modules/categories/server/types";
+import { categoriesGetManyOutput } from "@/modules/categories/types";
 import { CategoryDropdown } from "@/modules/home/ui/components/search-filter/category-dropdown";
 import { ListFilterIcon } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CategoriesSidebar } from "./categorysidebar";
-import { useParams } from "next/navigation";
 interface Props {
     data: categoriesGetManyOutput;
 }
@@ -20,7 +20,7 @@ export const Categories = ({ data }: Props) => {
     const [visibleCount, setVisibleCount] = useState(data.length);
     const [isAnyHovered, setIsAnyHovered] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    
+
     const categoryParam = params.category as string | undefined;
     const activeCategory = categoryParam || "all";
 

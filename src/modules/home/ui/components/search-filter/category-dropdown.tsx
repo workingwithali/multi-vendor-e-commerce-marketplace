@@ -1,11 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils"; // Adjust path as needed
-import { useState, useRef } from "react";
-import { useDropdownPosition } from "./use-dropdown-position";
-import { SubcategoryMenu } from "./subcategory-menu";
+import { categoriesGetManyOutput } from "@/modules/categories/types";
 import Link from "next/link";
-import { categoriesGetManyOutput } from "@/modules/categories/server/types";
+import { useRef, useState } from "react";
+import { SubcategoryMenu } from "./subcategory-menu";
+import { useDropdownPosition } from "./use-dropdown-position";
 
 interface Props {
     category: categoriesGetManyOutput[1];

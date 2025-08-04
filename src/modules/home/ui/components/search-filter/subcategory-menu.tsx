@@ -1,16 +1,16 @@
+import { cn } from "@/lib/utils";
+import { categoriesGetManyOutput } from "@/modules/categories/types";
 import { Category } from "@/payload-types";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { categoriesGetManyOutput } from "@/modules/categories/server/types";
 
 interface Props {
-    category: categoriesGetManyOutput[1]; 
+    category: categoriesGetManyOutput[1];
     isOpen: boolean;
-    Position: { top: number; left: number};
+    Position: { top: number; left: number };
 }
 
 export const SubcategoryMenu = ({
-    category,  
+    category,
     isOpen,
     Position,
 }: Props) => {
