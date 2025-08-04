@@ -1,4 +1,4 @@
-
+"use client"
 import { useTRPC } from '@/trpc/client';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import React from 'react'
@@ -14,10 +14,11 @@ export const ProductList = () => {
   )
 }
 
-export const productListSkeleton = () => {
+
+export const ProductListSkeleton = () => {
   return (
     <div>
       <p>Loading...</p>
     </div>
-  )
-}
+  );
+};
