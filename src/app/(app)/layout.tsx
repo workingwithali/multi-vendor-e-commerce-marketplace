@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import RenderMounted from "@/components/RenderMounted";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "@/components/ui/sonner";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
+
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -35,10 +37,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <TRPCReactProvider>
-              {children}
-              <Toaster />
-            </TRPCReactProvider>
+            <NuqsAdapter>
+              <TRPCReactProvider>
+                {children}
+                <Toaster />
+              </TRPCReactProvider>
+            </NuqsAdapter>
           </ThemeProvider>
         </RenderMounted>
       </body>
