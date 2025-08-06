@@ -20,7 +20,17 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        ghostOutline:
+          "h-9 px-3 py-1.5 rounded-full text-sm font-medium border border-background " +
+          "hover:border-foreground hover:bg-background hover:text-foreground " +
+          "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        subtleGhost:
+          "h-9 px-3 py-1.5 rounded-full text-sm font-medium" +
+          "bg-transparent border border-transparent text-foreground" +
+          "hover:border-foreground hover:bg-background hover:text-foreground",
+
       },
+
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
