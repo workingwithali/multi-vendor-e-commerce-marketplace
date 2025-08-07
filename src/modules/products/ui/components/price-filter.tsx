@@ -11,18 +11,24 @@ interface Props {
     onMaxPriceChange: (value: string) => void;
 }
 
-export const formatAsCurrency = (value: string) => {
-    const numericValue = value.replace(/[^0-9]/g, '');
-    const part = numericValue.split('.');
-    const formatedValue = part[0] + (part.length > 1 ? '.' + part[1]?.slice(0, 2) : '');
-    if (!formatedValue) return '';
-    const numberValue = parseFloat(formatedValue);
+export const formatAsCurrency = (value: string): string => {
+    // Remove all characters except digits and dot
+    const cleaned = value.replace(/[^\d.]/g, '');
+
+    // Parse float value
+    const numberValue = parseFloat(cleaned);
+
+    // Return empty string if invalid number
     if (isNaN(numberValue)) return '';
-    return new Intl.NumberFormat(
-        'en-US',
-        { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 2 }
-    ).format(numberValue);
-}
+
+    // Format as PKR currency
+    return new Intl.NumberFormat('en-PK', {
+        style: 'currency',
+        currency: 'PKR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    }).format(numberValue);
+};
 
 export const PriceFilter = ({ minPrice, maxPrice, onMinPriceChange, onMaxPriceChange }: Props) => {
     const handleMinPriceChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +46,7 @@ export const PriceFilter = ({ minPrice, maxPrice, onMinPriceChange, onMaxPriceCh
             <div className="flex flex-col gap-2" >
                 <Label>Min Price</Label>
                 <Input
-                    placeholder="$0.00"
+                    placeholder="PKR0.00"
                     type="text"
                     value={minPrice ? formatAsCurrency(minPrice) : ''}
                     onChange={handleMinPriceChange}
@@ -49,7 +55,7 @@ export const PriceFilter = ({ minPrice, maxPrice, onMinPriceChange, onMaxPriceCh
             <div className="flex flex-col gap-2" >
                 <Label>Max Price</Label>
                 <Input
-                    placeholder="$0.00"
+                    placeholder="∞"
                     type="text"
                     value={maxPrice ? formatAsCurrency(maxPrice) : ''}
                     onChange={handleMaxPriceChange}

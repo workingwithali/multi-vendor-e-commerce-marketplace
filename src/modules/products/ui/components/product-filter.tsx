@@ -5,6 +5,7 @@ import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PriceFilter } from "./price-filter";
 import { useProductFilters } from "../../hooks/use-porduct-filters";
+import { type } from "node:os";
 
 interface Props {
     title: string
@@ -33,14 +34,29 @@ export const ProductFilters = () => {
     const onChange = (key: keyof typeof filter, value: unknown) => {
         setFilter({ ...filter, [key]: value });
     };
+    const hasAnyFilter = Object.entries(filter).some(([,value]) => {
+        if (typeof value === "string") {
+            return value !== "";
+        }
+        return value !== null;
+    });
+    const onClear = () => {
+        setFilter({
+            minPrice: "",
+            maxPrice: "",
+        });
+    };
     return (
         <div className="border rounded-md bg-background">
             <div className="p-4 border-b flex items-center justify-between">
                 <p className="font-medium">Filter</p>
-                <button
-                    className="underline"
-                    onClick={() => { }}
-                    type="button">Clear</button>
+                {hasAnyFilter && (
+                    <button
+                        className="underline cursor-pointer"
+                        onClick={() => onClear()}
+                        type="button">Clear
+                    </button>
+                )}
             </div>
             <ProductFilter title="Price">
                 <PriceFilter
