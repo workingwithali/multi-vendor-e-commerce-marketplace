@@ -1,5 +1,5 @@
 
-import { loaderProdcutFilters } from "@/modules/products/hooks/use-porduct-filters";
+import { loaderProdcutFilters } from "@/modules/products/search-param";
 import { ProductFilters } from "@/modules/products/ui/components/product-filter";
 import { ProductList, ProductListSkeleton } from "@/modules/products/ui/components/product-list";
 import { getQueryClient, trpc } from "@/trpc/server";

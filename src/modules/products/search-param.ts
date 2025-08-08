@@ -1,5 +1,4 @@
-import {  useQueryStates , parseAsArrayOf , parseAsString  } from "nuqs";
-
+import { parseAsString, createLoader, parseAsArrayOf } from "nuqs/server";
 const param = {
     minPrice: parseAsString
         .withOptions({
@@ -14,7 +13,4 @@ const param = {
             clearOnDefault: true
         }),
 }
-
-export const useProductFilters = () => {
-    return useQueryStates(param)
-} 
+export const loaderProdcutFilters = createLoader(param)
