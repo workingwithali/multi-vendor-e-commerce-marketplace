@@ -34,7 +34,13 @@ export const ProductFilters = () => {
     const onChange = (key: keyof typeof filter, value: unknown) => {
         setFilter({ ...filter, [key]: value });
     };
-    const hasAnyFilter = Object.entries(filter).some(([,value]) => {
+    const hasAnyFilter = Object.entries(filter).some(([key,value]) => {
+        if (key === "sort") {
+            return false;
+        }
+        if (Array.isArray(value)) {
+            return value.length > 0;
+        }
         if (typeof value === "string") {
             return value !== "";
         }
