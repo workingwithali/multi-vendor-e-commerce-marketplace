@@ -23,7 +23,13 @@ export const ProductList = ({ category }: Props) => {
         <ProductCard
         key={product.id}
         id={product.id}
-        
+        name={product.name}
+        imageUrl={product.image?.url}
+        anuthorUserName="ali rashid"
+        anuthorImageUrl={undefined}
+        reviewRating={3}
+        reviewCount={5}
+        price={product.price}
         />
 
       ))}
