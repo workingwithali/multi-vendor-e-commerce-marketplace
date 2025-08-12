@@ -29,7 +29,7 @@ export const ProductCard = ({
 ) => {
     return (
         <Link href={`/products/${id}`}>
-            <div className="border rounded-md bg-background flex flex-col overflow-y-hidden h-full ">
+            <div className="border border-foreground rounded-md bg-background flex flex-col overflow-y-hidden h-full ">
                 <div className="relative aspect-square" >
                     <Image
                         src={imageUrl || "/placeholder.png"}

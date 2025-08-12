@@ -57,7 +57,7 @@ export const Navbar = () => {
     const session = useQuery(trpc.auth.session.queryOptions());
 
     return (
-        <nav className="h-16 flex border-b border-foreground justify-between items-center font-medium text-foreground">
+        <nav className="h-16 flex border-b border-foreground bg-muted justify-between items-center font-medium text-foreground">
             {/* Reduced text size and padding */}
             <Link href="/" className="flex items-center pl-4">
                 <span className={cn("text-3xl font-semibold", poppins.className)}>LOGO</span>
