@@ -1,12 +1,9 @@
 
 import { loaderProdcutFilters } from "@/modules/products/search-param";
-import { ProductFilters } from "@/modules/products/ui/components/product-filter";
-import { ProductList, ProductListSkeleton } from "@/modules/products/ui/components/product-list";
-import { ProductSort } from "@/modules/products/ui/components/product-sort";
+import { ProductListViews } from "@/modules/products/ui/views/product-list-views";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { SearchParams } from "nuqs/server";
-import { Suspense } from "react";
 
 interface Props {
   params: Promise<{
@@ -26,7 +23,7 @@ const Page = async ({ params, searchParams }: Props) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-     
+     <ProductListViews category={category}/>
     </HydrationBoundary>
   );
 };
