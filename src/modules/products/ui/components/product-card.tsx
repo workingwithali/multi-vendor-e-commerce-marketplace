@@ -28,7 +28,7 @@ export const ProductCard = ({
 }: ProductCardProps
 ) => {
     return (
-        <Link href="/">
+        <Link href={`/products/${id}`}>
             <div className="border rounded-md bg-background flex flex-col overflow-y-hidden h-full ">
                 <div className="relative aspect-square" >
                     <Image
