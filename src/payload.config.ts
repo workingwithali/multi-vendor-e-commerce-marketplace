@@ -6,6 +6,8 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
+
 
 
 import { Users } from './collections/Users'
@@ -37,6 +39,16 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
+    multiTenantPlugin({
+      collections:{
+        products: {}
+      },
+      tenantsArrayField: {
+        includeDefaultField : false,
+      },
+      userHasAccessToAllTenants : (user) => Boolean(user?.roles?.includes('super-admin')),
+
+    })
     // storage-adapter-placeholder
   ],
 })

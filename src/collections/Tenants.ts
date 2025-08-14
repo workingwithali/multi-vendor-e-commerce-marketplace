@@ -7,7 +7,7 @@ export const Tenants: CollectionConfig = {
   },
   fields: [
     {
-      name: 'username',
+      name: 'name',
       required: true,
       type: 'text',
       label: 'Store Name',
@@ -42,7 +42,6 @@ export const Tenants: CollectionConfig = {
     {
         name : "stripeDetailsSubmitted",
         type: 'checkbox',
-        required: true,
         admin: {
             readOnly: true,
             description: "you cannot create products until you submit your stripe details"

@@ -132,6 +132,13 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   username: string;
+  roles?: ('super-admin' | 'user')[] | null;
+  tenants?:
+    | {
+        tenant: string | Tenant;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -149,6 +156,29 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenants".
+ */
+export interface Tenant {
+  id: string;
+  /**
+   * This is the name of your store (e.g. ali's Store)
+   */
+  name: string;
+  /**
+   * This is the slug of your store (e.g. [slug].payloadcms.com)
+   */
+  slug: string;
+  image?: (string | null) | Media;
+  stripeAccountId: string;
+  /**
+   * you cannot create products until you submit your stripe details
+   */
+  stripeDetailsSubmitted?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -193,6 +223,7 @@ export interface Category {
  */
 export interface Product {
   id: string;
+  tenant?: (string | null) | Tenant;
   name: string;
   description?: string | null;
   /**
@@ -214,29 +245,6 @@ export interface Tag {
   id: string;
   name: string;
   tags?: (string | Product)[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tenants".
- */
-export interface Tenant {
-  id: string;
-  /**
-   * This is the name of your store (e.g. ali's Store)
-   */
-  username: string;
-  /**
-   * This is the slug of your store (e.g. [slug].payloadcms.com)
-   */
-  slug: string;
-  image?: (string | null) | Media;
-  stripeAccountId: string;
-  /**
-   * you cannot create products until you submit your stripe details
-   */
-  stripeDetailsSubmitted: boolean;
   updatedAt: string;
   createdAt: string;
 }
@@ -319,6 +327,13 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   username?: T;
+  roles?: T;
+  tenants?:
+    | T
+    | {
+        tenant?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -372,6 +387,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   description?: T;
   price?: T;
@@ -397,7 +413,7 @@ export interface TagsSelect<T extends boolean = true> {
  * via the `definition` "tenants_select".
  */
 export interface TenantsSelect<T extends boolean = true> {
-  username?: T;
+  name?: T;
   slug?: T;
   image?: T;
   stripeAccountId?: T;
