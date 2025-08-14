@@ -6,13 +6,11 @@ import Link from "next/link";
 interface Props {
     category: categoriesGetManyOutput[1];
     isOpen: boolean;
-    Position: { top: number; left: number };
 }
 
 export const SubcategoryMenu = ({
     category,
     isOpen,
-    Position,
 }: Props) => {
     if (!isOpen || !category.subcategories || category.subcategories.length === 0) {
         return null;
@@ -21,8 +19,8 @@ export const SubcategoryMenu = ({
 
     return (
         <div
-            className="fixed z-10"
-            style={{ top: Position.top, left: Position.left }}
+            className="absolute z-10"
+            style={{ top: '100%' , left: 0 }}
         >
             {/* Spacer to position dropdown below the trigger */}
             <div className="h-3 w-60" />
