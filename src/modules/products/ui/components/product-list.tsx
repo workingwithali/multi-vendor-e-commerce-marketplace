@@ -10,9 +10,10 @@ import { InboxIcon } from 'lucide-react';
 
 interface Props {
   category?: string
+  tenantSlug?: string
 }
 
-export const ProductList = ({ category }: Props) => {
+export const ProductList = ({ category , tenantSlug }: Props) => {
   const [filter] = useProductFilters();
   const trpc = useTRPC();
   const { data,
@@ -23,6 +24,7 @@ export const ProductList = ({ category }: Props) => {
     {
       ...filter,
       category,
+      tenantSlug,
       limit: DEFAULT_LIMIT
     },
     {
