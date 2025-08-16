@@ -7,9 +7,9 @@ const poppins = Poppins({
     subsets: ["latin"],
 })
 
-export const Navbar = () => {
+export const Footer = () => {
     return (
-        <nav className='h-16 border-b font-medium bg-background'>
+        <footer className='h-16 border-b font-medium bg-background'>
             <div className='max-w-(--breakpoint-xl) mx-auto flex items-center justify-between h-full px-4 lg:px-8'>
                 <p className='text-xl font-semibold'>powered by</p>
                 <Link href='/'>
@@ -18,6 +18,6 @@ export const Navbar = () => {
                     </span>
                 </Link>
             </div>
-        </nav>
+        </footer>
     )
 }
