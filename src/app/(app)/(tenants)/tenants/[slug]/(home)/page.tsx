@@ -6,13 +6,16 @@ import { DEFAULT_LIMIT } from "@/constants";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 interface Props {
-  params: { slug: string };
-  searchParams: SearchParams;
+  params: Promise<{
+    slug: string;
+  }>,
+  searchParams: Promise<SearchParams>
+
 }
 
 const Page = async ({ params, searchParams }: Props) => {
-  const { slug } = params; // ✅ params is not a promise
-  const filter = await loaderProdcutFilters(searchParams); // ✅ searchParams, not SearchParam
+  const { slug } = await params; 
+  const filter = await loaderProdcutFilters(searchParams); 
 
   const queryClient = getQueryClient();
 
@@ -26,7 +29,7 @@ const Page = async ({ params, searchParams }: Props) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ProductListViews tenantSlug={slug} />
+      <ProductListViews tenantSlug={slug} narrowView />
     </HydrationBoundary>
   );
 };

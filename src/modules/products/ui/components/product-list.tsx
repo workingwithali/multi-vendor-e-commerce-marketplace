@@ -7,13 +7,15 @@ import { ProductCard, ProductCardSkeleton } from './product-card';
 import { DEFAULT_LIMIT } from '@/constants';
 import { Button } from '@/components/ui/button';
 import { InboxIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface Props {
   category?: string
   tenantSlug?: string
+  narrowView?: boolean
 }
 
-export const ProductList = ({ category , tenantSlug }: Props) => {
+export const ProductList = ({ category, tenantSlug, narrowView }: Props) => {
   const [filter] = useProductFilters();
   const trpc = useTRPC();
   const { data,
@@ -39,21 +41,23 @@ export const ProductList = ({ category , tenantSlug }: Props) => {
       <div className='flex flex-col justify-center items-center text-2xl font-semibold border border-foreground py-8 border-dashed gap-y-4 bg-background w-full rounded-lg'>
         <InboxIcon />
         <p className='text-base font-medium'>No products found</p>
-        </div>
+      </div>
     )
   }
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 ">
+      <div className={cn("grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 ",
+        narrowView && "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+      )}>
         {data?.pages.flatMap((page) => page.docs).map((product) => (
           <ProductCard
             key={product.id}
             id={product.id}
             name={product.name}
             imageUrl={product.image?.url}
-            anuthorUserName={product.tenant?.name || "Unknown"}
-            anuthorImageUrl={product.tenant?.image?.url}
+            tenantSlug={product.tenant?.slug}
+            tenantImageUrl={product.tenant?.image?.url}
             reviewRating={3}
             reviewCount={5}
             price={product.price}
@@ -79,9 +83,11 @@ export const ProductList = ({ category , tenantSlug }: Props) => {
 }
 
 
-export const ProductListSkeleton = () => {
+export const ProductListSkeleton = ( { narrowView }: { narrowView?: boolean } ) => {
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 '>
+    <div className={cn("grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 ",
+      narrowView && "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+    )}>
       {Array.from({ length: 12 }).map((_, index) => (
         <ProductCardSkeleton key={index} />
       ))}

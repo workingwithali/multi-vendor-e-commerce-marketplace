@@ -1,10 +1,12 @@
 
 import { DEFAULT_LIMIT } from "@/constants";
+import { Media, Tenant } from "@/payload-types";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
+import { TRPCError } from "@trpc/server";
 import z from "zod";
 
 
-export const tagsRouter = createTRPCRouter({
+export const tenantsRouter = createTRPCRouter({
     getOne: baseProcedure
         .input(
             z.object({
@@ -12,15 +14,26 @@ export const tagsRouter = createTRPCRouter({
             })
         )
         .query(async ({ ctx, input }) => {
-
-
             
-            const data = await ctx.db.find({
-                collection: 'tags',
-                page: input.cursor,
-                limit: input.limit,
+            const tenantdata = await ctx.db.find({
+                collection: 'tenants',
+                depth: 1,
+                where: {
+                    slug: {
+                        equals: input.slug,
+                    }
+                },
+                limit: 1,
+                pagination: false,
             });
+            const tenant = tenantdata.docs[0];
+            if (!tenant) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Tenant not found"
+                })
+            }
 
-            return data;
+            return tenant as Tenant & { image: Media | null };
         })
 })
