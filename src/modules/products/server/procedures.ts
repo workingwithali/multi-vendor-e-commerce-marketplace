@@ -4,9 +4,22 @@ import { Sort, Where } from "payload";
 import z from "zod";
 import { sortValue } from "../search-param";
 import { DEFAULT_LIMIT } from "@/constants";
+import { get } from "http";
 
 
 export const productsRouter = createTRPCRouter({
+    getOne: baseProcedure
+        .input(
+            z.object({
+                id : z.string()
+            })
+        )
+        .query(async ({ ctx, input }) => {
+            const product = await ctx.db.findByID({
+                collection: 'products',
+                id: input.id,
+            })
+        }),
     getMany: baseProcedure
         .input(
             z.object({
