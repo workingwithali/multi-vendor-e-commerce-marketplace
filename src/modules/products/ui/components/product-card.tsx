@@ -1,4 +1,4 @@
-import { generateTenantsUrl } from "@/lib/utils";
+import { formatCurrency, generateTenantsUrl } from "@/lib/utils";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,7 +37,7 @@ export const ProductCard = ({
     }
 
     return (
-        <Link href={`/products/${id}`}>
+        <Link href={`${generateTenantsUrl(tenantSlug)}/products/${id}`}>
             <div className="border border-foreground rounded-md bg-background flex flex-col overflow-y-hidden h-full ">
                 <div className="relative aspect-square" >
                     <Image
@@ -75,11 +75,7 @@ export const ProductCard = ({
                 <div className="p-4">
                     <div className="relative px-2 py-1 w-fit border bg-pink-400 ">
                         <p className="text-lg font-semibold">
-                            { Intl.NumberFormat('en-PK', {
-                                style: 'currency',
-                                currency: 'PKR',
-                                maximumFractionDigits: 0,
-                            }).format(price)}
+                            {formatCurrency(price)}
                         </p>
                     </div>
                 </div>

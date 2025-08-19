@@ -19,6 +19,11 @@ export const productsRouter = createTRPCRouter({
                 collection: 'products',
                 id: input.id,
             })
+            return {
+                ...product,
+                image: product.image as Media |null,
+                tenant: product.tenant as Tenant & { image: Media | null }
+            }
         }),
     getMany: baseProcedure
         .input(

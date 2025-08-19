@@ -8,3 +8,14 @@ export function cn(...inputs: ClassValue[]) {
 export function generateTenantsUrl(slug: string) {
   return `/tenants/${slug}`
 }
+
+export function formatCurrency(price: number | string) {
+  return (
+    Intl.NumberFormat('en-PK', {
+      style: 'currency',
+      currency: 'PKR',
+      maximumFractionDigits: 0,
+    }).format(Number(price))
+  )
+  
+}
