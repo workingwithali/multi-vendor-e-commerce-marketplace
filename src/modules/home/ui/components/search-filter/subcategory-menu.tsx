@@ -39,7 +39,7 @@ export const SubcategoryMenu = ({
                             key={subcategory.slug}
                             href={`/${category.slug}/${subcategory.slug}`}
                             className={cn(
-                                "w-full px-4 py-3 text-left flex items-center justify-between font-medium underline",
+                                "w-full px-4 py-3 text-left flex items-center justify-between font-medium underline text-black",
                                 "hover:bg-foreground hover:text-background transition-colors duration-200"
                             )}
                         >

@@ -11,7 +11,7 @@ interface Props {
 
 export const ProductListViews = ( { category , tenantSlug , narrowView}: Props) => {
   return (
-     <div className="px-4 lg:px-12 py-8 flex flex-col gap-4 bg-muted">
+     <div className="px-4 lg:px-12 py-8 flex flex-col gap-4 bg-background">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-y-2 lg:gap-y-0 ">
           <p className="test-2xl font-semibold" >Curated for you</p>
           <ProductSort />
