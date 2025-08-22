@@ -21,7 +21,7 @@ export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
     const trpc = useTRPC();
     const { data } = useSuspenseQuery(trpc.products.getOne.queryOptions({ id: prodcutId }));
     return (
-        <div className="px-4 lg:px-12 py-8">
+        <div className="px-4 lg:px-54 py-8">
             <div className="border rounded-sm bg-background overflow-hidden">
                 <div className="relative aspect-square lg:aspect-[4/2] border-b">
                     <Image
