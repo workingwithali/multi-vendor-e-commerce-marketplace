@@ -18,9 +18,10 @@ export const CheckoutButton = ({ className, hideIfEmpty, tenantSlug }: Props) =>
   return (
     <Button
       asChild
+      variant="ghostOutline"
       className={cn(
-        "flex-1 h-12 rounded-sm text-sm font-medium transition-shadow duration-200",
-        "bg-primary border border-foreground text-foreground shadow-none hover:shadow-sm",
+        "h-9 px-4 w-auto rounded-sm text-sm font-medium transition-shadow duration-200",
+        " border border-foreground  shadow-none hover:shadow-sm shadow-foreground",
         className
       )}
     >

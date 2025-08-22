@@ -29,7 +29,7 @@ export const Navbar = ({ slug }: Props) => {
                 }
                     <p className='text-xl font-semibold'>{data?.name}</p>
                 </Link>
-                <CheckoutButton tenantSlug={slug} />
+                <CheckoutButton hideIfEmpty tenantSlug={slug}  />
             </div>
         </nav>
     )
