@@ -29,8 +29,8 @@ export const Navbar = ({ slug }: Props) => {
                     )}
                 >
                     <Link href={generateTenantsUrl(slug)}>
-                        <span className={cn("text-2xl font-semibold", poppins.className)}>
-                            Checkout
+                        <span className={cn(" font-medium", poppins.className)}>
+                            Continue Shopping
                         </span>
                     </Link>
                 </Button>
