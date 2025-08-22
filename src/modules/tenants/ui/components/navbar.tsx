@@ -4,7 +4,7 @@ import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-
+import { CheckoutButton } from "@/modules/checkout/ui/components/checkout-button";
 
 
 interface Props {
@@ -29,6 +29,7 @@ export const Navbar = ({ slug }: Props) => {
                 }
                     <p className='text-xl font-semibold'>{data?.name}</p>
                 </Link>
+                <CheckoutButton tenantSlug={slug} />
             </div>
         </nav>
     )

@@ -9,6 +9,7 @@ import { LinkIcon, StarIcon } from "lucide-react";
 import Image from "next/image"
 import Link from "next/link";
 import { Fragment } from "react";
+import { CartButton } from "../components/cart-button";
 
 
 interface Props {
@@ -88,14 +89,9 @@ export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
                             {/* Add to cart */}
                             <div className="flex flex-col gap-4 p-6 border-b">
                                 <div className="flex flex-row items-center gap-2">
+                                    <CartButton productId={prodcutId} tenatSlug={tenantSlug}/>
                                     <Button
-                                        variant="ghostOutline"
-                                        className="flex-1 bg-primary hover:bg-foreground text-background hover:text-background px-6 border-foreground rounded-sm "
-                                    >
-                                        Add to cart
-                                    </Button>
-                                    <Button
-                                        className="size-9 rounded-sm"
+                                        className="size-12 rounded-sm"
                                         variant="ghostOutline"
                                         onClick={() => { }}
                                         disabled={false}
