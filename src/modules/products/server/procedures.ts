@@ -4,7 +4,6 @@ import { Sort, Where } from "payload";
 import z from "zod";
 import { sortValue } from "../search-param";
 import { DEFAULT_LIMIT } from "@/constants";
-import { get } from "http";
 
 
 export const productsRouter = createTRPCRouter({
