@@ -21,7 +21,7 @@ export const CheckoutButton = ({ className, hideIfEmpty, tenantSlug }: Props) =>
       variant="ghostOutline"
       className={cn(
         "h-9 px-4 w-auto rounded-sm text-sm font-medium transition-shadow duration-200",
-        " border border-foreground  shadow-none hover:shadow-sm shadow-foreground",
+        "border border-foreground  shadow-none hover:shadow-sm shadow-foreground",
         className
       )}
     >
