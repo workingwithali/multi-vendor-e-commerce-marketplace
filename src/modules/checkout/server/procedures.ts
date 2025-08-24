@@ -28,7 +28,7 @@ export const checkoutRouter = createTRPCRouter({
                     message: "Products not found"
                 })
             }
-            totalPrice = data.docs.reduce((acc, product) => {
+            const totalPrice = data.docs.reduce((acc, product) => {
                 const price = Number(product.price);
                 return acc +(isNaN(price)?0:price);
             }, 0)
