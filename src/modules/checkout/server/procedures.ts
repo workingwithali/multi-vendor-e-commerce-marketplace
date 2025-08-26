@@ -1,11 +1,103 @@
-import {  Media, Tenant } from "@/payload-types";
-import { baseProcedure, createTRPCRouter } from "@/trpc/init";
+import { Media, Tenant } from "@/payload-types";
+import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import z from "zod";
 import { TRPCError } from "@trpc/server";
+import { CheckoutMetaData, ProductMetaData } from "../types.";
+import Stripe from "stripe";
+import { stripe } from "@/lib/strip";
+
 
 
 export const checkoutRouter = createTRPCRouter({
-   
+    purchase: protectedProcedure
+        .input(
+            z.object({
+                productIds: z.array(z.string()).min(1),
+                tenantSlug: z.string().min(1),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            // Fetch products to ensure they exist and belong to the tenant
+            const products = await ctx.db.find({
+                collection: 'products',
+                depth: 2,
+                where: {
+                    and: [
+                        {
+                            id: {
+                                in: input.productIds
+                            }
+                        },
+                        {
+                            "tenant.slug": {
+                                equals: input.tenantSlug
+                            }
+                        }
+                    ]
+
+
+                },
+            });
+
+            if (products.totalDocs !== input.productIds.length) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Some products are invalid or do not belong to the specified tenant."
+                });
+            }
+            const tenantData = await ctx.db.find({
+                collection: 'tenants',
+                limit: 1,
+                pagination: false,
+                where: {
+                    slug: {
+                        equals: input.tenantSlug
+                    }
+                },
+            });
+            const tenant = tenantData?.docs?.[0];
+            if (!tenant) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Tenant not found."
+                });
+            }
+            const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = products.docs.map((product) => ({
+                quantity: 1,
+                price_data: {
+                    currency: "pkr",
+                    product_data: {
+                        name: product.name,
+                        metadata: {
+                            stripeAccountId: tenant.stripeAccountId,
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                        } as ProductMetaData,
+                    },
+                    unit_amount: product.price * 100,
+                },
+            }));
+            const checkout = await stripe.checkout.sessions.create({
+                customer_email: ctx.session.user.email,
+                success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/tenant${input.tenantSlug}/checkout?success=true`,
+                cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/tenant${input.tenantSlug}/checkout?canceled=true`,
+                mode: 'payment',
+                line_items: lineItems,
+                invoice_creation: { enabled: true },
+                metadata: { userId: ctx.session.user.id} as CheckoutMetaData,
+            });
+            if (!checkout.url) {
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: "Failed to create checkout session."
+                });
+            }
+
+            return { url: checkout.url };
+        })
+
+    ,
     getProducts: baseProcedure
         .input(
             z.object({
@@ -30,7 +122,7 @@ export const checkoutRouter = createTRPCRouter({
             }
             const totalPrice = data.docs.reduce((acc, product) => {
                 const price = Number(product.price);
-                return acc +(isNaN(price)?0:price);
+                return acc + (isNaN(price) ? 0 : price);
             }, 0)
 
             return {
@@ -38,7 +130,7 @@ export const checkoutRouter = createTRPCRouter({
                 totalPrice: totalPrice,
                 docs: data.docs.map((doc) => ({
                     ...doc,
-                    image: doc.image as Media |null,
+                    image: doc.image as Media | null,
                     tenant: doc.tenant as Tenant & { image: Media | null }
                 }))
             };

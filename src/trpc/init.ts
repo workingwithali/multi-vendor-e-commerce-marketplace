@@ -1,9 +1,10 @@
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from '@trpc/server';
 import { cache } from 'react';
 
 import config from '@payload-config'
 import { getPayload } from 'payload'
 import superjson from 'superjson';
+import { headers as getHeaders } from 'next/headers';
 
 export const createTRPCContext = cache(async () => {
     /**
@@ -24,7 +25,7 @@ const t = initTRPC.create({
 // Base router and procedure helpers
 export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
-export const baseProcedure = t.procedure.use(async({ next }) => {
+export const baseProcedure = t.procedure.use(async ({ next }) => {
     const payload = await getPayload({ config });
     return next({
         ctx: {
@@ -32,3 +33,26 @@ export const baseProcedure = t.procedure.use(async({ next }) => {
         },
     });
 })
+
+export const protectedProcedure = baseProcedure.use(async ({ ctx, next }) => {
+    const headers = await getHeaders();
+    const sesseion = await ctx.db.auth({ headers });
+
+    if (!sesseion?.user) {
+        throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "You must be logged in to access this resource"
+        });
+    }
+    return next(
+        {
+            ctx: {
+                ...ctx,
+                session: {
+                    ...sesseion,
+                    user: sesseion.user
+                }
+            }
+        }
+    );
+});
