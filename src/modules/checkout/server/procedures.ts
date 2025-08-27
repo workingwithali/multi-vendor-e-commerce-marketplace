@@ -17,7 +17,6 @@ export const checkoutRouter = createTRPCRouter({
             })
         )
         .mutation(async ({ ctx, input }) => {
-            // Fetch products to ensure they exist and belong to the tenant
             const products = await ctx.db.find({
                 collection: 'products',
                 depth: 2,
