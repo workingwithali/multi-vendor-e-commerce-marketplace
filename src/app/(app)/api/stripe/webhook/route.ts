@@ -2,7 +2,7 @@ import type { Stripe } from "stripe";
 import {  NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { getPayload } from "payload";
-import { config } from "@payload-config"; 
+// import { config } from "@payload-config"; 
 
 export async function POST(req: Request) {
     let event: Stripe.Event;
