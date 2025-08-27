@@ -19,10 +19,10 @@ export const Orders: CollectionConfig = {
             required: true,
         },
         {
-            name: 'products',
+            name: 'product',
             type: 'relationship',
             relationTo: 'products',
-            hasMany: true,
+            hasMany: false,
             required: true,
         },
         {
