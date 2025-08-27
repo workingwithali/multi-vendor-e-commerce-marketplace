@@ -10,7 +10,7 @@ import { CheckoutItems } from "../components/checkout-item";
 import { CheckoutSidebar } from "../components/checkout-sidebar";
 import { InboxIcon, LoaderIcon } from "lucide-react";
 import { useCheckoutState } from "../../hooks/use-checkout-state";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 
 interface Props {
@@ -44,10 +44,11 @@ export const CheckoutView = ({ tenantSlug }: Props) => {
   // Handle success state
   useEffect(() => {
     if (states.success) {
+      setStates({ success: false, cancel: false });
       clearCart();
       router.push("/products")
     }
-  }, [states.success, clearCart, router])
+  }, [states.success, clearCart, router , setStates])
 
   // Handle invalid product in cart
   useEffect(() => {

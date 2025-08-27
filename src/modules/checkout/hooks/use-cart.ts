@@ -1,5 +1,5 @@
 import { useCartStore } from "@/modules/checkout/store/use-cart-store";
-import { clear } from "console";
+
 
 export const useCart = (tenantSlug: string) => {
     const {
