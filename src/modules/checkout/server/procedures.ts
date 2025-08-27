@@ -4,7 +4,7 @@ import z from "zod";
 import { TRPCError } from "@trpc/server";
 import { CheckoutMetaData, ProductMetaData } from "../types.";
 import Stripe from "stripe";
-import { stripe } from "@/lib/strip";
+import { stripe } from "@/lib/stripe";
 
 
 
@@ -79,8 +79,8 @@ export const checkoutRouter = createTRPCRouter({
             }));
             const checkout = await stripe.checkout.sessions.create({
                 customer_email: ctx.session.user.email,
-                success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/tenant${input.tenantSlug}/checkout?success=true`,
-                cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/tenant${input.tenantSlug}/checkout?canceled=true`,
+                success_url: `${process.env.NEXt_PUBLIC_API_URL}/tenants/${input.tenantSlug}/checkout?success=true`,
+                cancel_url: `${process.env.NEXt_PUBLIC_API_URL}/tenants/${input.tenantSlug}/checkout?canceled=true`,
                 mode: 'payment',
                 line_items: lineItems,
                 invoice_creation: { enabled: true },

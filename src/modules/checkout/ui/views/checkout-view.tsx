@@ -50,6 +50,18 @@ export const CheckoutView = ({ tenantSlug }: Props) => {
     }
   }, [states.success, clearCart, router , setStates])
 
+   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("canceled")) {
+      setStates({ success: false, cancel: true });
+      toast.info("Checkout was canceled.");
+      // remove `canceled` query from URL to avoid repeat toast
+      const url = new URL(window.location.href);
+      url.searchParams.delete("canceled");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [setStates]);
+
   // Handle invalid product in cart
   useEffect(() => {
     if (!error) return;
