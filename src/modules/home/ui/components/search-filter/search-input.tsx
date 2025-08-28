@@ -36,9 +36,9 @@ export const SearchInput = ({
                     variant="default"
                     className="py-6 border-foreground shrink-0 flex  border rounded-md"
                 >
-                    <Link href="/libary">
+                    <Link href="/library">
                         <BookmarkCheckIcon />
-                        Libary
+                        Library
                     </Link>
                 </Button>
             )}

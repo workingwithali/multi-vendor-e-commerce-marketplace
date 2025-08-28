@@ -4,23 +4,51 @@ import { Sort, Where } from "payload";
 import z from "zod";
 import { sortValue } from "../search-param";
 import { DEFAULT_LIMIT } from "@/constants";
+import { headers as getHeaders } from "next/headers";
 
 
 export const productsRouter = createTRPCRouter({
     getOne: baseProcedure
         .input(
             z.object({
-                id : z.string()
+                id: z.string()
             })
         )
         .query(async ({ ctx, input }) => {
+            const headers = await getHeaders();
+            const session = await ctx.db.auth({ headers });
             const product = await ctx.db.findByID({
                 collection: 'products',
                 id: input.id,
             })
+            let isPurchase = false;
+            if (session.user) {
+                const ordersData = await ctx.db.find({
+                    collection: 'orders',
+                    limit: 1,
+                    where: {
+                        and: [
+                            {
+                                products: {
+                                    equals: product.id
+                                }
+                            },
+                            {
+                                user: {
+                                    equals: session.user.id
+                                }
+                            }
+                        ]
+
+                    }
+                });
+                isPurchase = !!ordersData.docs[0];
+
+            }
             return {
                 ...product,
-                image: product.image as Media |null,
+                isPurchase,
+                image: product.image as Media | null,
                 tenant: product.tenant as Tenant & { image: Media | null }
             }
         }),
@@ -28,18 +56,18 @@ export const productsRouter = createTRPCRouter({
         .input(
             z.object({
                 cursor: z.number().default(1),
-                limit : z.number().default(DEFAULT_LIMIT),
+                limit: z.number().default(DEFAULT_LIMIT),
                 category: z.string().nullable().optional(),
                 minPrice: z.string().nullable().optional(),
                 maxPrice: z.string().nullable().optional(),
-                tags : z.array(z.string()).nullable().optional(),
-                sort : z.enum(sortValue).nullable().optional(),
-                tenantSlug : z.string().nullable().optional(),
+                tags: z.array(z.string()).nullable().optional(),
+                sort: z.enum(sortValue).nullable().optional(),
+                tenantSlug: z.string().nullable().optional(),
             })
         )
         .query(async ({ ctx, input }) => {
             const where: Where = {};
-            let sort:Sort = '-created_at';
+            let sort: Sort = '-created_at';
             if (input.sort == "trending") {
                 sort = 'name';
             }
@@ -49,23 +77,23 @@ export const productsRouter = createTRPCRouter({
             if (input.sort == "trending") {
                 sort = '+created_at';
             }
-            if(input.minPrice && input.maxPrice){
+            if (input.minPrice && input.maxPrice) {
                 where.price = {
                     less_than_equal: input.maxPrice,
                     greater_than_equal: input.minPrice
                 }
-            }else if(input.minPrice){
+            } else if (input.minPrice) {
                 where.price = {
                     greater_than_equal: input.minPrice
                 }
-            }else if(input.maxPrice){
+            } else if (input.maxPrice) {
                 where.price = {
                     less_than_equal: input.maxPrice
                 }
             }
-            
 
-            if(input.tenantSlug){
+
+            if (input.tenantSlug) {
                 where['tenant.slug'] = {
                     equals: input.tenantSlug,
                 }
@@ -99,11 +127,11 @@ export const productsRouter = createTRPCRouter({
                     }
                 }
             }
-            if(input.tags&&input.tags.length>0){
+            if (input.tags && input.tags.length > 0) {
                 where['tags.name'] = {
                     in: input.tags,
                 }
-            } 
+            }
             const data = await ctx.db.find({
                 collection: 'products',
                 depth: 2, // populate "category" & "image"
@@ -117,7 +145,7 @@ export const productsRouter = createTRPCRouter({
                 ...data,
                 docs: data.docs.map((doc) => ({
                     ...doc,
-                    image: doc.image as Media |null,
+                    image: doc.image as Media | null,
                     tenant: doc.tenant as Tenant & { image: Media | null }
                 }))
             };
