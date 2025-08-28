@@ -2,13 +2,15 @@ import { useCartStore } from "@/modules/checkout/store/use-cart-store";
 
 
 export const useCart = (tenantSlug: string) => {
-    const {
-        addProduct,
-        removeProduct,
-        clearCart,
-        clearAllCarts,
-        getCartByTenant
-    } = useCartStore()
+    
+    const addProduct = useCartStore((state) => state.addProduct);
+    const removeProduct = useCartStore((state) => state.removeProduct);
+    const clearCart = useCartStore((state) => state.clearCart);
+    const clearAllCarts = useCartStore((state) => state.clearAllCarts);
+    const getCartByTenant = useCartStore((state) => state.getCartByTenant);
+
+
+
     const productIds = getCartByTenant(tenantSlug)
     const toggleProduct = (productId: string) => {
         if (productIds.includes(productId)) {
