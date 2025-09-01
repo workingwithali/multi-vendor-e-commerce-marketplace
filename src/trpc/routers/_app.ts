@@ -7,12 +7,14 @@ import { tagsRouter } from '@/modules/tags/server/procedures';
 import { tenantsRouter } from '@/modules/tenants/server/procedures';
 import { check } from 'zod';
 import { checkoutRouter } from '@/modules/checkout/server/procedures';
+import { libraryRouter } from '@/modules/library/server/procedures';
 export const appRouter = createTRPCRouter({
    products : productsRouter,
    auth: authRouter,
    tags: tagsRouter,
    categories: categoriesRouter,
    tenants : tenantsRouter,
+   library : libraryRouter,
    checkout : checkoutRouter,
 });
 // export type definition of API

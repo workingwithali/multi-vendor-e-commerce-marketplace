@@ -89,9 +89,9 @@ export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
                             {/* Add to cart */}
                             <div className="flex flex-col gap-4 p-6 border-b">
                                 <div className="flex flex-row items-center gap-2">
-                                    <CartButton productId={prodcutId} tenatSlug={tenantSlug} isPurchase={data.isPurchase} />
+                                    <CartButton productId={prodcutId} tenatSlug={tenantSlug} isPurchased={data.isPurchased} />
                                     <Button
-                                        className="size-12 rounded-sm"
+                                        className="size-12 rounded-sm border border-foreground"
                                         variant="ghostOutline"
                                         onClick={() => { }}
                                         disabled={false}

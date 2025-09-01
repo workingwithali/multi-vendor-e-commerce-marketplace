@@ -5,19 +5,19 @@ import Link from "next/link"
 interface Props {
     tenatSlug: string,
     productId: string,
-    isPurchase?: boolean,
+    isPurchased?: boolean,
 }
-export const CartButton = ({ tenatSlug, productId, isPurchase }: Props) => {
+export const CartButton = ({ tenatSlug, productId, isPurchased }: Props) => {
     const cart = useCart(tenatSlug)
-    if (isPurchase) {
+    if (isPurchased) {
         return (
             <Button className={cn(
-                "flex-1 h-12 rounded-sm text-sm font-medium transition-shadow duration-200",
-                "bg-background border border-foreground text-foreground shadow-none shadow-foreground hover:shadow-sm",
+                "flex-1 h-12 rounded-sm text-sm font-medium transition-shadow duration-2000",
+                "bg-background hover:bg-foreground hover:text-background border border-foreground text-foreground shadow-none shadow-foreground hover:shadow-sm",
             )}
             asChild
             >
-                <Link href={`/library/${data.id}`}>
+                <Link href={`/library/${productId}`}>
                     View in library
                 </Link>
             </Button>
