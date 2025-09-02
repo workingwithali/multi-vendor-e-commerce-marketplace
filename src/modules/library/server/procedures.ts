@@ -1,4 +1,4 @@
-import { Category, Media, Tenant } from "@/payload-types";
+import {  Media, Tenant } from "@/payload-types";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import z from "zod";
 import { DEFAULT_LIMIT } from "@/constants";
@@ -13,23 +13,20 @@ export const libraryRouter = createTRPCRouter({
             })
         )
         .query(async ({ ctx, input }) => {
+            if(!ctx.session?.user?.id){
+                throw new TRPCError({
+                    code: 'UNAUTHORIZED',
+                    message: 'Unauthorized'
+                });
+            } 
             const ordersData = await ctx.db.find({
                 collection: 'orders',
                 limit: 1,
                 pagination: false,
                 where: {
-                    and: [
-                        {
-                          product: {
-                            equals: input.productId
-                          }  
-                        },
-                        {
-                            user: {
-                                equals: ctx.session.user.id
-                            }
-                        }
-                    ]   
+                    product: {
+                        equals: input.productId
+                    }
                 },
             });
             const order = ordersData.docs[0];

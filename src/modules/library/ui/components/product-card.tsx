@@ -28,7 +28,7 @@ export const ProductCard = ({
     
 
     return (
-        <Link href={`/library/${id}`}>
+        <Link prefetch href={`/library/${id}`}>
             <div className="border border-foreground rounded-md bg-background flex flex-col overflow-y-hidden h-full ">
                 <div className="relative aspect-square" >
                     <Image
@@ -39,7 +39,7 @@ export const ProductCard = ({
                     />
                 </div>
 
-                <div className="flex-1 flex flex-col p-4 border-y gap-2">
+                <div className="flex-1 flex flex-col p-4 border-t gap-2">
                     <h2 className="text-sm font-semibold  line-clamp-4">{name}</h2>
                     <div className="flex items-center gap-2"  >
                         {tenantImageUrl&& (
