@@ -26,6 +26,19 @@ const ProductView = ( { productId }: Props ) => {
         </div>
         </header>
         <section className="container mx-auto px-4 ">
+          <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 lg:gap-8">
+            <div className="lg:col-span-2">
+              <div className="p-4 border rounded-sm  gap-4 bg-card">
+                reviews sidebar
+              </div>
+            </div>
+            <div className="lg:col-span-5 ">
+              <p className="font-medium italic text-muted-foreground mb-4">
+                Product description
+              </p>
+            </div>
+
+          </div>
         </section>
     </div>
   )
