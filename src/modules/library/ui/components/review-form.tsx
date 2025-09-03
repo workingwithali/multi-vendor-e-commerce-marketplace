@@ -19,7 +19,8 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import { StarPicker } from "@/components/star-picker";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 
 interface Props {
@@ -28,9 +29,15 @@ interface Props {
 }
 export const ReviewForm = ({ productId, initialData }: Props) => {
     const trpc = useTRPC();
+    const queryClient = useQueryClient();
     const createReview = useMutation(trpc.reviews.create.mutationOptions({
-        onSuccess: ()=>{},
-        onError: ()=>{},
+        onSuccess: ()=>{
+            queryClient.invalidateQueries(trpc.reviews.getOne.queryOptions({ productId }));
+            setIsPreview(true);
+        },
+        onError: (error)=>{
+            toast.error(error.message);
+        },
     }));
     const updateReview = useMutation(trpc.reviews.update.mutationOptions({
         onSuccess:()=>{},
@@ -104,7 +111,7 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
 
                     <Button
                         variant="ghostOutline"
-                        disabled={false}
+                        disabled={createReview.isPending || updateReview.isPending}
                         type="submit"
                         size="lg"
                         className="bg-foreground text-background hover:bg-primary hover:text-foreground w-fit"
