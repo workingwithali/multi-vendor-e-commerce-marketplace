@@ -3,6 +3,7 @@ import { ArrowLeftIcon } from "lucide-react"
 import Link from "next/link"
 import { useTRPC } from "@/trpc/client"
 import { useSuspenseQuery } from "@tanstack/react-query"
+import { ReviewSidebar } from "../components/review-sidebar"
 interface Props{
   productId: string
 }
@@ -25,11 +26,11 @@ const ProductView = ( { productId }: Props ) => {
           </h1>
         </div>
         </header>
-        <section className="container mx-auto px-4 ">
+        <section className="container mx-auto px-4  ">
           <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 lg:gap-8">
             <div className="lg:col-span-2">
               <div className="p-4 border rounded-sm  gap-4 bg-card">
-                reviews sidebar
+                <ReviewSidebar productId={productId}/>
               </div>
             </div>
             <div className="lg:col-span-5 ">
