@@ -18,7 +18,8 @@ import {
     FormItem,
     FormMessage
 } from "@/components/ui/form";
-import { init } from "next/dist/compiled/webpack/webpack";
+import { StarPicker } from "@/components/star-picker";
+import { useMutation } from "@tanstack/react-query";
 
 
 interface Props {
@@ -26,6 +27,15 @@ interface Props {
     initialData?: ReviewGetOneOutput
 }
 export const ReviewForm = ({ productId, initialData }: Props) => {
+    const trpc = useTRPC();
+    const createReview = useMutation(trpc.reviews.create.mutationOptions({
+        onSuccess: ()=>{},
+        onError: ()=>{},
+    }));
+    const updateReview = useMutation(trpc.reviews.update.mutationOptions({
+        onSuccess:()=>{},
+        onError:()=>{}
+    }));
     const [isPreview, setIsPreview] = useState(!!initialData);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -35,7 +45,19 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
         },
     })
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(data);
+        if(initialData){
+            updateReview.mutate({
+                reviewsId:initialData.id,
+                rating: data.rating,
+                comment: data.comment
+            })          
+        }else{
+            createReview.mutate({
+                productId,
+                rating:data.rating,
+                comment:data.comment
+            })
+        }
     }
     return (
         <Form {...form}>
@@ -46,6 +68,22 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
                 <p>
                     {isPreview ? "Preview" : "Liked it? Give us a review!"}
                 </p>
+                <FormField
+                    control={form.control}
+                    name="rating"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <StarPicker
+                                    disabled={isPreview}
+                                    rating={field.value}
+                                    onChange={field.onChange}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
                 <FormField
                     control={form.control}
                     name="comment"
