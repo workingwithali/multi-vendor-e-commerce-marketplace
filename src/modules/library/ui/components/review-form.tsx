@@ -44,18 +44,18 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
             comment: initialData?.comment ?? "",
         },
     })
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         if(initialData){
             updateReview.mutate({
                 reviewsId:initialData.id,
-                rating: data.rating,
-                comment: data.comment
+                rating: values.rating,
+                comment: values.comment
             })          
         }else{
             createReview.mutate({
                 productId,
-                rating:data.rating,
-                comment:data.comment
+                rating:values.rating,
+                comment:values.comment
             })
         }
     }
