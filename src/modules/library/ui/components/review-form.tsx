@@ -124,7 +124,6 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
                     <Button
                      onClick={() => setIsPreview(false)}
                      variant="ghostOutline"
-                     disabled={false}
                      type="button"
                      size="lg"
                      className="w-fit border border-foreground hover:bg-foreground hover:text-background"
