@@ -5,10 +5,10 @@ import { Progress } from "@/components/ui/progress";
 import { formatCurrency, generateTenantsUrl } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { LinkIcon, StarIcon } from "lucide-react";
+import { CheckIcon, LinkIcon, StarIcon } from "lucide-react";
 import Image from "next/image"
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { CartButton } from "../components/cart-button";
 import { toast } from "sonner";
 
@@ -21,6 +21,7 @@ interface Props {
 export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
     const trpc = useTRPC();
     const { data } = useSuspenseQuery(trpc.products.getOne.queryOptions({ id: prodcutId }));
+    const [isCopied, setIsCopied] = useState(false);
     return (
         <div className="px-4 lg:px-54 py-8">
             <div className="border rounded-sm bg-background overflow-hidden">
@@ -95,12 +96,15 @@ export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
                                         className="size-12 rounded-sm border border-foreground cursor-pointer shadow-none shadow-foreground hover:shadow-sm"
                                         variant="ghostOutline"
                                         onClick={() => {
+                                            setIsCopied(true)
                                             navigator.clipboard.writeText(window.location.href)
                                             toast.success("Link copied to clipboard")
+                                            setTimeout(() => setIsCopied(false), 2000)
                                         }}
-                                    // disabled={false}
+                                    disabled={isCopied}
                                     >
-                                        <LinkIcon className="size-6" />
+                                        {isCopied ? <CheckIcon className="size-6" /> : <LinkIcon className="size-6" />
+  }
                                     </Button>
                                 </div>
                                 <p className="text-center font-medium">
