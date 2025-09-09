@@ -168,14 +168,17 @@ export interface User {
 export interface Tenant {
   id: string;
   /**
-   * This is the name of your store (e.g. ali's Store)
+   * This is the name of your store (e.g. demo's Store)
    */
   name: string;
   /**
-   * This is the slug of your store (e.g. [slug].payloadcms.com)
+   * This is the slug of your store (e.g. [slug].store.com)
    */
   slug: string;
   image?: (string | null) | Media;
+  /**
+   * you cannot create products until you submit your stripe details
+   */
   stripeAccountId: string;
   /**
    * you cannot create products until you submit your stripe details
@@ -238,6 +241,10 @@ export interface Product {
   tags?: (string | Tag)[] | null;
   image?: (string | null) | Media;
   'refund policy'?: ('30-days' | '14-days' | '7-days' | '3-days' | '1-day' | 'no-refund') | null;
+  /**
+   * Protected content is visiable to coustomer after purchase. Add product documentation, downloable
+   */
+  content?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -261,6 +268,9 @@ export interface Order {
   name: string;
   user: string | User;
   product: string | Product;
+  /**
+   * Stripe Checkout Session associated with this order
+   */
   stripeCheckoutSessionId: string;
   updatedAt: string;
   createdAt: string;
@@ -433,6 +443,7 @@ export interface ProductsSelect<T extends boolean = true> {
   tags?: T;
   image?: T;
   'refund policy'?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }

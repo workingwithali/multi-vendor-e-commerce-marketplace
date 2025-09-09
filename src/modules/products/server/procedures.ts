@@ -22,6 +22,9 @@ export const productsRouter = createTRPCRouter({
                 collection: 'products',
                 id: input.id,
                 depth: 2, // populate "category" & "image"
+                select :{
+                    content:false
+                }
             })
             if (!product) {
                 throw new Error("Product not found");
@@ -178,6 +181,9 @@ export const productsRouter = createTRPCRouter({
                 sort,
                 page: input.cursor,
                 limit: input.limit,
+                select :{
+                    content:false
+                }
             });
             const dataWithSummarizedReviews = await Promise.all(
                 data.docs.map(async (doc) => {
