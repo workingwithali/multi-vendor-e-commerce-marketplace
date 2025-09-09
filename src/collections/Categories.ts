@@ -1,9 +1,18 @@
+import { isSuperAdmin } from '@/lib/access'
 import type { CollectionConfig } from 'payload'
 
 export const Categories: CollectionConfig = {
     slug: 'categories',
+    access: {
+        read: () => true,
+        create: ({ req }) => isSuperAdmin(req.user),
+        delete: ({ req }) => isSuperAdmin(req.user),
+        update: ({ req }) => isSuperAdmin(req.user),
+    },
     admin: {
         useAsTitle: 'name',
+        hidden: ({ user }) => !isSuperAdmin(user),
+
     },
     fields: [
         {
@@ -19,17 +28,17 @@ export const Categories: CollectionConfig = {
             index: true,
         },
         {
-            name:'color',
+            name: 'color',
             type: 'text',
         },
         {
-            name:"parent",
+            name: "parent",
             type: 'relationship',
             relationTo: 'categories',
             hasMany: false,
         },
         {
-            name:'subcategories',
+            name: 'subcategories',
             type: 'join',
             collection: 'categories',
             on: 'parent',
