@@ -10,6 +10,7 @@ import Image from "next/image"
 import Link from "next/link";
 import { Fragment } from "react";
 import { CartButton } from "../components/cart-button";
+import { toast } from "sonner";
 
 
 interface Props {
@@ -56,20 +57,20 @@ export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
                                 </Link>
                             </div>
                             <div className="hidden lg:flex items-center justify-center px-6 py-4">
-                                <div className="flex items-center gap-1">
-                                    <StarRating rating={4}  iconClassName="size-4" />
-                                    <p className="text-sm font-medium">{4}rating</p>
+                                <div className="flex items-center gap-2">
+                                    <StarRating rating={data.reviewsRating} iconClassName="size-4" />
+                                    <p className="text-sm font-medium">{data.reviewsCount} rating</p>
+
                                 </div>
                             </div>
                         </div>
                         <div className="block lg:hidden px-6 py-4 items-center justify-center border-b">
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-2">
                                 <StarRating
-                                    rating={4}
-                                    text="dfdafads"
+                                    rating={data.reviewsRating}
                                     iconClassName="size-4"
                                 />
-                                <p className="text-sm font-medium">{4}rating</p>
+                                <p className="text-sm font-medium">{data.reviewsCount} rating</p>
                             </div>
                         </div>
                         <div className="p-6">
@@ -91,10 +92,13 @@ export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
                                 <div className="flex flex-row items-center gap-2">
                                     <CartButton productId={prodcutId} tenatSlug={tenantSlug} isPurchased={data.isPurchased} />
                                     <Button
-                                        className="size-12 rounded-sm border border-foreground"
+                                        className="size-12 rounded-sm border border-foreground cursor-pointer shadow-none shadow-foreground hover:shadow-sm"
                                         variant="ghostOutline"
-                                        onClick={() => { }}
-                                        disabled={false}
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(window.location.href)
+                                            toast.success("Link copied to clipboard")
+                                        }}
+                                    // disabled={false}
                                     >
                                         <LinkIcon className="size-6" />
                                     </Button>
@@ -113,26 +117,26 @@ export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
                                     <h3 className="text-xl font-semibold">Ratings</h3>
                                     <div className="flex items-center gap-x-1 font-medium">
                                         <StarIcon className="size-4 fill-foreground" />
-                                        <p>({5})</p>
-                                        <p className="text-base">{5} ratings </p>
+                                        <p>({data.reviewsRating})</p>
+                                        <p className="text-base">{data.reviewsCount} ratings </p>
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-4 items-center">
                                     {[5, 4, 3, 2, 1].map((stars) => (
-                                        <div key={stars} className="contents ">
+                                        <Fragment key={stars} >
                                             {/* Left side: stars */}
                                             <div className="font-medium">
                                                 {stars} {stars === 1 ? "star" : "stars"}
                                             </div>
 
                                             {/* Middle: progress bar */}
-                                            <Progress value={stars * 20} className="h-[1lh] rounded-sm" />
+                                            <Progress value={data.ratingDistribution[stars]} className="h-4 rounded-md" />
 
                                             {/* Right side: percentage */}
                                             <div className="font-medium">
-                                                {stars * 20}%
+                                                {data.ratingDistribution[stars]}%
                                             </div>
-                                        </div>
+                                        </Fragment>
                                     ))}
                                 </div>
 

@@ -17,7 +17,7 @@ export const CartButton = ({ tenatSlug, productId, isPurchased }: Props) => {
             )}
             asChild
             >
-                <Link href={`/library/${productId}`}>
+                <Link href={`/library`}>
                     View in library
                 </Link>
             </Button>
