@@ -5,6 +5,7 @@ import { categoriesGetManyOutput } from "@/modules/categories/types";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { SubcategoryMenu } from "./subcategory-menu";
+import { is } from "zod/v4/locales";
 
 interface Props {
     category: categoriesGetManyOutput[1];
@@ -42,23 +43,20 @@ export const CategoryDropdown = ({
         >
             <div className="relative">
                 <Button
+                variant="ghostOutline"
                     className={cn(
-                        "h-9 px-3 py-1.5 rounded-full text-sm font-medium",
-                        "bg-transparent border border-transparent text-foreground shadow-none",
-                        "hover:border-foreground hover:shadow-foreground hover:bg-background hover:text-foreground",
-                        // Apply these if active and hovered
-                        isActive && isNavigationHovered && "border-foreground bg-background shadow-foreground",
-                        isOpen && "border-foreground bg-background shadow-foreground",
+                        "h-9 px-3 py-1.5 bg-transparent border-transparent rounded-full hover:bg-background hover:border-foreground text-foreground text-sm font-medium ",
+                        isActive && !isNavigationHovered && "bg-background border-foreground",
+                        !isActive && "text-background",
+                        isNavigationHovered && isActive && "text-background",
+                        
                     )}
-
-
                 >
-                    <Link
-                        href={`/${category.slug == "all" ? "" : category.slug}`}
-                    >
+                    <Link href={`/${category.slug === "all" ? "" : category.slug}`}>
                         {category.name}
                     </Link>
                 </Button>
+
 
                 {category.subcategories && category.subcategories.length > 0 && (
                     <div className={cn(

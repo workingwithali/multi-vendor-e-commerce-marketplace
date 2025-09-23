@@ -55,7 +55,7 @@ export const Categories = ({ data }: Props) => {
     }, [data.length]);
 
     return (
-        // hidden
+
         <div className="relative w-full">
             <CategoriesSidebar open={isSidebarOpen} setOpen={setIsSidebarOpen} />
             <div
@@ -68,18 +68,17 @@ export const Categories = ({ data }: Props) => {
                         <CategoryDropdown
                             category={category}
                             isActive={activeCategory === category.slug}
-                            isNavigationHovered={false}
+                            isNavigationHovered={isAnyHovered}
                         />
                     </div>
                 ))}
             </div>
 
-            {/* visible */}
             <div
                 ref={containerRef}
                 className="flex flex-nowrap items-center"
-                onMouseEnter={() => setIsAnyHovered(false)}
-                onMouseLeave={() => setIsAnyHovered(true)}
+                onMouseEnter={() => setIsAnyHovered(true)}
+                onMouseLeave={() => setIsAnyHovered(false)}
             >
                 {data.slice(0, visibleCount).map((category) => (
                     <div key={category.id} className="mr-2" >
@@ -95,18 +94,20 @@ export const Categories = ({ data }: Props) => {
                     className="shrink-0"
                 >
                     <Button
-                        className={cn(
-                            "h-9 px-3 py-1.5 rounded-full text-sm font-medium",
-                            "bg-transparent border border-transparent text-foreground shodaw-none",
-                            "hover:border-foreground hover:shadow-foreground hover:bg-background hover:text-foreground",
-                            // Apply these if active and hovered
-                            isActiveCategoryHidden && isAnyHovered && "border-foreground bg-background shadow-foreground",
-                        )}
-                        onClick={() => setIsSidebarOpen(true)}
-                    >
-                        View All
-                        <ListFilterIcon className="ml-2" />
-                    </Button>
+  className={cn(
+    "h-9 px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+    isActiveCategoryHidden
+      ? // ✅ Selected state
+        "bg-background text-foreground border border-foreground shadow"
+      : // ❌ Non-selected + hover styles
+        "bg-transparent text-foreground border-none shadow-none hover:border hover:border-foreground hover:bg-background hover:shadow"
+  )}
+  onClick={() => setIsSidebarOpen(true)}
+>
+  View All
+  <ListFilterIcon className="ml-2" />
+</Button>
+
                 </div>
             </div>
         </div>
