@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { TRPCError } from "@trpc/server";
 
 export async function POST(req: Request) {
   let event: Stripe.Event;
@@ -12,7 +11,7 @@ export async function POST(req: Request) {
     event = stripe.webhooks.constructEvent(
       await (await req.blob()).text(),
       req.headers.get("Stripe-Signature") as string,
-      process.env.STIRPE_WEBHOOK_SECRET as string
+      process.env.STRIPE_WEBHOOK_SECRET as string
     );
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
@@ -28,7 +27,10 @@ export async function POST(req: Request) {
 
   console.log("✅ Success:", event.id);
 
-  const permittedEvents: string[] = ["checkout.session.completed"];
+  const permittedEvents: string[] = [
+    "checkout.session.completed",
+    "account.updated",
+  ];
   const payload = await getPayload({ config });
 
   if (permittedEvents.includes(event.type)) {
@@ -86,7 +88,23 @@ export async function POST(req: Request) {
           }
           break;
         }
+        case "account.updated": {
+          const data = event.data.object as Stripe.Account;
 
+          await payload.update({
+            collection: "tenants",
+            where: {
+              stripeAccountId: {
+                equals: data.id,
+              },
+            },
+            data: {
+              stripeDetailsSubmitted: data.details_submitted ,
+            },
+            
+          });
+          break;
+        }
         default:
           throw new Error(`Unhandled event type: ${event.type}`);
       }
