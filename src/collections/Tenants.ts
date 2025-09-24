@@ -1,7 +1,5 @@
 import { isSuperAdmin } from '@/lib/access'
-import { Tenant } from '@/payload-types'
 import type { CollectionConfig } from 'payload'
-import { is } from 'zod/v4/locales'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',

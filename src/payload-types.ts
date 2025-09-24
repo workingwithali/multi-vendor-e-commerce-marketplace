@@ -225,6 +225,8 @@ export interface Category {
   createdAt: string;
 }
 /**
+ * you must verify your stripe account before adding products
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
@@ -242,7 +244,7 @@ export interface Product {
   image?: (string | null) | Media;
   'refund policy'?: ('30-days' | '14-days' | '7-days' | '3-days' | '1-day' | 'no-refund') | null;
   /**
-   * Protected content is visiable to coustomer after purchase. Add product documentation, downloable
+   * Protected content is visiable to coustomer after purchase. Add product documentation, downloable files etc
    */
   content?: string | null;
   updatedAt: string;

@@ -5,6 +5,7 @@ import { headers as getHeaders } from 'next/headers';
 
 import { loginSchema, registerSchema } from "../schema";
 import { generateAuthCookie } from "../utils";
+import { stripe } from "@/lib/stripe";
 
 
 export const authRouter = createTRPCRouter({
@@ -28,9 +29,16 @@ export const authRouter = createTRPCRouter({
             })
             const existingUser = existingData.docs[0];
             if (existingUser) {
-                throw new TRPCError({
+                throw new TRPCError({ 
                     code: "CONFLICT",
                     message: "User already exists"
+                })
+            }
+            const account = await stripe.accounts.create({})
+            if (!account.id) {
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: "Failed to create Stripe account"
                 })
             }
             const tenant = await ctx.db.create({
@@ -38,7 +46,7 @@ export const authRouter = createTRPCRouter({
                 data: {
                     name: input.username,
                     slug: input.username,
-                    stripeAccountId: 'text',
+                    stripeAccountId: account.id,
                 }
             })
 

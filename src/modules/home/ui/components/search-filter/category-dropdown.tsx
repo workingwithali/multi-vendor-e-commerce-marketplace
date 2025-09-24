@@ -47,8 +47,8 @@ export const CategoryDropdown = ({
                     className={cn(
                         "h-9 px-3 py-1.5 bg-transparent border-transparent rounded-full hover:bg-background hover:border-foreground text-foreground text-sm font-medium ",
                         isActive && !isNavigationHovered && "bg-background border-foreground",
-                        !isActive && "text-background",
-                        isNavigationHovered && isActive && "text-background",
+                        // !isActive && "text-background",
+                        // isNavigationHovered && isActive && "text-background",
                         
                     )}
                 >

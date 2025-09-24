@@ -9,6 +9,46 @@ import { stripe } from "@/lib/stripe";
 
 
 export const checkoutRouter = createTRPCRouter({
+    verify: protectedProcedure
+        .mutation(async ({ ctx }) => {
+            const user = await ctx.db.findByID({
+                collection: 'users',
+                id: ctx.session.user.id,
+                depth: 0,                
+            });
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found"
+                })
+            }
+            const tenantId = user.tenants?.[0]?.tenant as string
+            const tenant = await ctx.db.findByID({
+                collection: 'tenants',
+                id: tenantId,                
+            });
+            if (!tenant) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Tenant not found"
+                })
+            }
+            const accountLinks = await stripe.accountLinks.create({
+                account: tenant.stripeAccountId,
+                refresh_url: `${process.env.NEXT_PUBLIC_API_URL}/admin`,
+                return_url: `${process.env.NEXT_PUBLIC_API_URL}/admin`,
+                type: "account_onboarding",
+            });
+            if (!accountLinks.url) {
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: "Failed to create account link."
+                });
+            }
+            return { url: accountLinks.url };
+        }),
+
+
     purchase: protectedProcedure
         .input(
             z.object({
@@ -84,7 +124,7 @@ export const checkoutRouter = createTRPCRouter({
                 mode: 'payment',
                 line_items: lineItems,
                 invoice_creation: { enabled: true },
-                metadata: { userId: ctx.session.user.id} as CheckoutMetaData,
+                metadata: { userId: ctx.session.user.id } as CheckoutMetaData,
             });
             if (!checkout.url) {
                 throw new TRPCError({
