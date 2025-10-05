@@ -101,10 +101,10 @@ export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
                                             toast.success("Link copied to clipboard")
                                             setTimeout(() => setIsCopied(false), 2000)
                                         }}
-                                    disabled={isCopied}
+                                        disabled={isCopied}
                                     >
                                         {isCopied ? <CheckIcon className="size-6" /> : <LinkIcon className="size-6" />
-  }
+                                        }
                                     </Button>
                                 </div>
                                 <p className="text-center font-medium">
@@ -151,6 +151,24 @@ export const ProductView = ({ tenantSlug, prodcutId }: Props) => {
 
             </div>
 
+        </div>
+    )
+}
+
+export const ProductViewSkeleton = () => {
+    return (
+        <div className="px-4 lg:px-54 py-8">
+
+            <div className="border rounded-sm bg-background overflow-hidden">
+                <div className="relative aspect-square lg:aspect-[4/2] border-b">
+                    <Image
+                        src={"/placeholder.png"}
+                        alt={"placeholder"}
+                        fill
+                        className="object-cover"
+                    />
+                </div>
+            </div>
         </div>
     )
 }

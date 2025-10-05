@@ -5,6 +5,8 @@ import z from "zod";
 import { sortValue } from "../search-param";
 import { DEFAULT_LIMIT } from "@/constants";
 import { headers as getHeaders } from "next/headers";
+import { trpc } from "@/trpc/server";
+import { TRPCError } from "@trpc/server";
 
 
 export const productsRouter = createTRPCRouter({
@@ -28,6 +30,12 @@ export const productsRouter = createTRPCRouter({
             })
             if (!product) {
                 throw new Error("Product not found");
+            }
+            if(product.isArchived){
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Product not found"
+                })
             }
             let isPurchased = false;
             if (session?.user) {
@@ -108,7 +116,11 @@ export const productsRouter = createTRPCRouter({
             })
         )
         .query(async ({ ctx, input }) => {
-            const where: Where = {};
+            const where: Where = {
+                isArchived: {
+                    not_equals: true
+                }
+            };
             let sort: Sort = '-created_at';
             if (input.sort == "trending") {
                 sort = 'name';
