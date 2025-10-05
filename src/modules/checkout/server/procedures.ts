@@ -14,7 +14,7 @@ export const checkoutRouter = createTRPCRouter({
             const user = await ctx.db.findByID({
                 collection: 'users',
                 id: ctx.session.user.id,
-                depth: 0,                
+                depth: 0,
             });
             if (!user) {
                 throw new TRPCError({
@@ -25,7 +25,7 @@ export const checkoutRouter = createTRPCRouter({
             const tenantId = user.tenants?.[0]?.tenant as string
             const tenant = await ctx.db.findByID({
                 collection: 'tenants',
-                id: tenantId,                
+                id: tenantId,
             });
             if (!tenant) {
                 throw new TRPCError({
@@ -70,6 +70,11 @@ export const checkoutRouter = createTRPCRouter({
                         {
                             "tenant.slug": {
                                 equals: input.tenantSlug
+                            }
+                        },
+                        {
+                            isArchived: {
+                                not_equals: true
                             }
                         }
                     ]
@@ -148,9 +153,19 @@ export const checkoutRouter = createTRPCRouter({
                 collection: 'products',
                 depth: 2, // populate "category" & "image"
                 where: {
-                    id: {
-                        in: input.ids
-                    }
+                    and: [
+                        {
+                            id: {
+                                in: input.ids
+                            }
+                        },
+                        {
+                            isArchived: {
+                                not_equals: true
+                            }
+                        }
+                    ]
+
                 },
             });
             if (data.totalDocs !== input.ids.length) {
