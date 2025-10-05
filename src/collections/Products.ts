@@ -68,7 +68,7 @@ export const Products: CollectionConfig = {
             }            
         },
         {
-            name : "isPrivated",
+            name : "isPrivate",
             label : "Private",
             type : "checkbox",
             defaultValue : false,

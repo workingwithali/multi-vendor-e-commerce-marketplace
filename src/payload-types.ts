@@ -248,6 +248,10 @@ export interface Product {
    */
   content?: string | null;
   /**
+   * check this if you want to make this product private
+   */
+  isPrivate?: boolean | null;
+  /**
    * check this if you want to hide this product
    */
   isArchived?: boolean | null;
@@ -450,6 +454,7 @@ export interface ProductsSelect<T extends boolean = true> {
   image?: T;
   'refund policy'?: T;
   content?: T;
+  isPrivate?: T;
   isArchived?: T;
   updatedAt?: T;
   createdAt?: T;

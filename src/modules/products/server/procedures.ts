@@ -148,8 +148,12 @@ export const productsRouter = createTRPCRouter({
 
 
             if (input.tenantSlug) {
-                where['tenant.slug'] = {
+                where["tenant.slug"] = {
                     equals: input.tenantSlug,
+                }
+            }else{
+                where["isPrivate"] ={
+                    not_equals: true
                 }
             }
             if (input.category) {
