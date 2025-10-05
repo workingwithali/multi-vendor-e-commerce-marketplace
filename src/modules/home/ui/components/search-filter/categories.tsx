@@ -94,19 +94,19 @@ export const Categories = ({ data }: Props) => {
                     className="shrink-0"
                 >
                     <Button
-  className={cn(
-    "h-9 px-3 py-1.5 rounded-full text-sm font-medium transition-all",
-    isActiveCategoryHidden
-      ? // ✅ Selected state
-        "bg-background text-foreground border border-foreground shadow"
-      : // ❌ Non-selected + hover styles
-        "bg-transparent text-foreground border-none shadow-none hover:border hover:border-foreground hover:bg-background hover:shadow"
-  )}
-  onClick={() => setIsSidebarOpen(true)}
->
-  View All
-  <ListFilterIcon className="ml-2" />
-</Button>
+                        className={cn(
+                            "h-9 px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+                            isActiveCategoryHidden
+                                ? // ✅ Selected state
+                                "bg-background text-foreground border border-foreground shadow"
+                                : // ❌ Non-selected + hover styles
+                                "bg-transparent text-foreground border-none shadow-none hover:border hover:border-foreground hover:bg-background hover:shadow"
+                        )}
+                        onClick={() => setIsSidebarOpen(true)}
+                    >
+                        View All
+                        <ListFilterIcon className="ml-2" />
+                    </Button>
 
                 </div>
             </div>

@@ -53,9 +53,15 @@ export async function POST(req: Request) {
           }
 
           // ✅ Expand both line_items and product
-          const expandedSession = await stripe.checkout.sessions.retrieve(data.id, {
+          const expandedSession = await stripe.checkout.sessions.retrieve(
+            data.id, 
+            {
             expand: ["line_items", "line_items.data.price.product"],
-          });
+          },
+          {
+            stripeAccount: event.account,
+          }
+        );
 
           if (
             !expandedSession.line_items?.data ||
