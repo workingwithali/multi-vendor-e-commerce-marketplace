@@ -5,7 +5,6 @@ import z from "zod";
 import { sortValue } from "../search-param";
 import { DEFAULT_LIMIT } from "@/constants";
 import { headers as getHeaders } from "next/headers";
-import { trpc } from "@/trpc/server";
 import { TRPCError } from "@trpc/server";
 
 

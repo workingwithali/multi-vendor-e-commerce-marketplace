@@ -147,7 +147,7 @@ const seed = async () => {
         throw new Error("Failed to create Stripe account for admin tenant");
     }
     // Create admin tenant
-    const adminTenant= await payload.create({
+    await payload.create({
         collection : "tenants",
         data: {
             name: "admin",
