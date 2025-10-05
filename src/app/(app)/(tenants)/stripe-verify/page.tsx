@@ -5,7 +5,7 @@ import { LoaderIcon } from "lucide-react";
 import { useEffect } from "react";
 
 
-const page = () => {
+const Page = () => {
   const trpc = useTRPC();
   const {mutate: verify} = useMutation(trpc.checkout.verify.mutationOptions({
     onSuccess(data) {
@@ -25,4 +25,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
